@@ -430,7 +430,7 @@ function placeLockup(t, t0, { open = -Infinity, out = Infinity } = {}) {
 
 </script>
 <script>
-film({ W: 1920, H: 1080, BPM: 120, BEATS: 46 });
+film({ W: 1920, H: 1080, BPM: 120, BEATS: 40 });
 
 // Merkorn, "Da Excel al gestionale": un foglio di calcolo caotico diventa un gestionale su misura,
 // poi l'ordine appena inserito scala il magazzino e diventa una fattura elettronica.
@@ -523,9 +523,9 @@ const F = {
 const K = {};
 function timeline() {
   Object.assign(K, {
-    open: B(2), err: B(4), wide: B(6), morph: B(8), labels: B(10), values: B(10.5),
-    point: B(13), click: B(14), pMag: B(17), mag: B(18), stock: B(21), pFat: B(24), fat: B(25), pEmit: B(27), emit: B(28), sdi: B(30),
-    pull: B(34), close: B(36), out: B(44),
+    open: B(2), err: B(3.5), wide: B(4), morph: B(6), labels: B(8), values: B(8.5),
+    point: B(11), click: B(12), pMag: B(15), mag: B(16), stock: B(19), pFat: B(22), fat: B(23), pEmit: B(25), emit: B(26), sdi: B(28),
+    pull: B(29.5), close: B(30.5), out: B(38),
   });
   K.newRow = K.click + 0.15;
   K.enter = { ord: K.labels, mag: K.mag + 0.12, fat: K.fat + 0.12 };
@@ -691,7 +691,7 @@ function camera(t) {
   return cameraAt(t, [
     { t: 0, ...onWindow(600, 330, 1.55) },
     { t: K.open + 0.7, ...onWindow(600, 334, 1.58), d: K.wide - K.open - 0.7 },
-    { t: K.wide, ...onWindow(600, 390, 1.24), d: 1.1 },
+    { t: K.wide, ...onWindow(600, 390, 1.24), d: 0.9 },
     { t: K.labels, ...onWindow(640, 392, 1.3), d: 1.0 },
     { t: K.values + 0.6, ...onWindow(640, 392, 1.31), d: K.point - K.values - 0.6 },
     { t: K.newRow + 0.4, ...onWindow(640, 392, 1.325), d: K.pMag - K.newRow - 0.4 },
