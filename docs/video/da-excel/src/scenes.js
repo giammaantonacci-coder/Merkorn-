@@ -194,7 +194,7 @@ function applySheet(t) {
   const side = mixRect({ x: 0, y: 84, w: SH.rn, h: 696, r: 0 }, { x: 0, y: 0, w: SIDE_W, h: 780, r: 0 }, p);
   rectCss($.side, side);
   $.side.style.background = `color-mix(in srgb, var(--side) ${(pc(t) * 100).toFixed(1)}%, #F2F2F2)`;
-  $.side.style.boxShadow = `inset -1px 0 0 ${p > 0.5 ? "var(--hair)" : "#D6D6D6"}`;
+  $.side.style.boxShadow = `inset -1px 0 0 ${pc(t) > 0.5 ? "var(--hair)" : "#D6D6D6"}`;
   const br = spring(t, K.labels, 0.5, 0.88);
   show($.brand, t >= K.labels);
   setT($.brand, `translateY(${((1 - clamp(br, 0, 1)) * 16).toFixed(2)}px)`);
