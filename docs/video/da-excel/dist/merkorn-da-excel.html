@@ -786,7 +786,8 @@ function applyApp(t) {
     el.style.left = x + "px";
     show(el, t >= at && off < 1);
     setT(el, `scale(${(clamp(spring(t, at, 0.42, 0.7), 0, 1.08) * (1 - off)).toFixed(4)})`);
-    const [, a, b] = SCREENS[s].chips[k], n = t >= K.change[s] ? b : a;
+    // le fatture consegnate salgono solo quando lo SdI conferma la consegna
+    const [, a, b] = SCREENS[s].chips[k], n = t >= (s === "fat" && k === 2 ? K.sdi : K.change[s]) ? b : a;
     if ($[`chipN_${s}${k}`].textContent !== n) $[`chipN_${s}${k}`].textContent = n;
   }
   for (const s of ORDER) {
