@@ -430,7 +430,7 @@ function placeLockup(t, t0, { open = -Infinity, out = Infinity } = {}) {
 
 </script>
 <script>
-film({ W: 1920, H: 1080, BPM: 120, BEATS: 40 });
+film({ W: 1920, H: 1080, BPM: 120, BEATS: 58 });
 
 // Merkorn, "Da Excel al gestionale": un foglio di calcolo caotico diventa un gestionale su misura,
 // poi l'ordine appena inserito scala il magazzino e diventa una fattura elettronica.
@@ -455,6 +455,10 @@ const ORD = [
   ["1053", "Fiori di Marta", "16/09", "Vasche zinco", "20", "560,00", "consegnato", 2, "", "", ""],
   ["1054", "Idraulica Costa", "17/09", "Raccordi ottone", "300", "1.290,00", "consegnato", 2, "", "", ""],
 ];
+// la riga che viene digitata nel foglio: [campo, colonna, testo]
+const TYPED = 13, TYPE_SPEED = 0.06;
+const TYPE = [["num", 0, "1054"], ["cli", 1, "Idraulica Costa"], ["dat", 2, "17/09"], ["pro", 3, "Raccordi ottone"], ["Qty", 4, "300"], ["imp", 5, "1.290,00"], ["st", 6, "consegnato"]];
+const FORMULA = "=SOMMA(F2:F15)+F17-F3";
 const NEW = ["1055", "Ristorante Da Pino", "18/09", "Teglie inox", "", "1.640,00", "", 0];
 
 const GOOD = ["#4CC94C", "rgba(12,163,12,.18)"], WARN = ["#FAB219", "rgba(250,178,25,.14)"], BLUE = ["#6FB0E4", "rgba(58,143,208,.18)"];
@@ -523,10 +527,24 @@ const F = {
 const K = {};
 function timeline() {
   Object.assign(K, {
-    open: B(2), err: B(3.5), wide: B(4), morph: B(6), labels: B(8), values: B(8.5),
-    point: B(11), click: B(12), pMag: B(15), mag: B(16), stock: B(19), pFat: B(22), fat: B(23), pEmit: B(25), emit: B(26), sdi: B(28),
-    pull: B(29.5), close: B(30.5), out: B(38),
+    open: B(2),
   });
+  // qualcuno compila l'ultima riga del foglio, cella per cella, poi riscrive il totale: #RIF!
+  let at = K.open + 0.9;
+  K.cells = TYPE.map(([, , text]) => { const c = { at, end: at + text.length * TYPE_SPEED }; at = c.end + 0.2; return c; });
+  K.toTotal = at;
+  K.formula = at + 0.25;
+  K.hit = K.formula + FORMULA.length * 0.04 + 0.2;
+  K.err = K.hit;
+  K.wide = K.err + 0.9;
+  K.morph = K.wide + 1.0;
+  K.labels = K.morph + 1.0; K.values = K.labels + 0.25;
+  K.point = K.labels + 1.5; K.click = K.point + 0.5;
+  K.pMag = K.click + 1.5; K.mag = K.pMag + 0.5; K.stock = K.mag + 1.5;
+  K.pFat = K.stock + 1.5; K.fat = K.pFat + 0.5; K.pEmit = K.fat + 1.0; K.emit = K.pEmit + 0.5; K.sdi = K.emit + 1.0;
+  // dopo l'ultima operazione: tre secondi di respiro, la camera arretra piano, poi la finestra torna blocco
+  K.pull = K.sdi + 0.5; K.close = K.sdi + 3.0;
+  K.out = K.close + 0.6 + 3.4;
   K.newRow = K.click + 0.15;
   K.enter = { ord: K.labels, mag: K.mag + 0.12, fat: K.fat + 0.12 };
   K.leave = { ord: K.mag, mag: K.fat, fat: Infinity };
@@ -607,16 +625,18 @@ function build(stage) {
       <div class="abs" style="left:0;top:0;width:1200px;height:52px;background:#1D6F42"></div>
       <span class="abs t" style="left:0;width:1200px;top:15px;text-align:center;font-size:14px;font-weight:600;color:#fff">ORDINI_def_v3 (copia) (2).xlsx</span>
       <div class="abs row" style="left:0;top:52px;width:1200px;height:32px;background:#F7F7F7;box-shadow:inset 0 -1px 0 #D6D6D6;padding-left:12px;gap:14px;font-size:13px">
-        <i style="font-style:italic;color:#888;font-weight:600">fx</i><span style="color:#333">=SOMMA(F2:F15)+F17-F3</span>
+        <i style="font-style:italic;color:#888;font-weight:600">fx</i><span data-k="fxText" style="color:#333;white-space:pre"></span>
       </div>
       <div class="abs" style="left:0;top:84px;width:1200px;height:24px;background:#F2F2F2"></div>
       ${letters}${grid.join("")}
       <div class="abs" style="left:0;top:${SH.top + SH.row * ORD.length}px;width:1200px;height:30px;background:#FAFAFA">
         <span class="abs t" style="left:106px;top:7px;font-size:13px;font-weight:700">TOTALE</span>
-        <span class="abs t" data-k="ref" style="left:646px;top:7px;font-size:13px;font-weight:700;color:#D0021B">#RIF!</span>
+        <span class="abs t" data-k="ref" style="left:646px;top:7px;font-size:13px;font-weight:700;color:#D0021B;padding:0 3px;margin-left:-3px"></span>
         <span class="abs t" style="left:766px;top:7px;font-size:13px;color:#333">da evadere: ???</span>
       </div>
       <div class="abs" style="left:0;top:744px;width:1200px;height:36px;background:#F2F2F2;box-shadow:inset 0 1px 0 #D6D6D6"></div>
+      <div class="abs" data-k="cell" style="box-shadow:inset 0 0 0 2px #1D6F42"><i class="abs" style="right:-4px;bottom:-4px;width:7px;height:7px;background:#1D6F42;box-shadow:0 0 0 1px #fff"></i></div>
+      <i class="abs" data-k="caret" style="width:1.5px;height:17px;background:#111"></i>
     </div>
     <div class="abs" data-k="side" style="background:#F2F2F2"></div>
     <div class="abs row" data-k="brand" style="left:20px;top:52px;gap:10px">
@@ -689,15 +709,15 @@ function apply(t) {
 
 function camera(t) {
   return cameraAt(t, [
-    { t: 0, ...onWindow(600, 330, 1.55) },
-    { t: K.open + 0.7, ...onWindow(600, 334, 1.58), d: K.wide - K.open - 0.7 },
+    { t: 0, ...onWindow(600, 380, 1.42) },
+    { t: K.open + 0.7, ...onWindow(600, 384, 1.45), d: K.wide - K.open - 0.7 },
     { t: K.wide, ...onWindow(600, 390, 1.24), d: 0.9 },
     { t: K.labels, ...onWindow(640, 392, 1.3), d: 1.0 },
     { t: K.values + 0.6, ...onWindow(640, 392, 1.31), d: K.point - K.values - 0.6 },
     { t: K.newRow + 0.4, ...onWindow(640, 392, 1.325), d: K.pMag - K.newRow - 0.4 },
     { t: K.mag + 0.6, ...onWindow(640, 392, 1.34), d: K.pFat - K.mag - 0.6 },
     { t: K.emit + 0.4, ...onWindow(640, 392, 1.36), d: K.pull - K.emit - 0.4 },
-    { t: K.pull, ...onWindow(600, 390, 1.0), d: 0.9 },
+    { t: K.pull, ...onWindow(600, 390, 1.0), d: K.close - K.pull + 0.3 },
   ]);
 }
 
@@ -715,8 +735,7 @@ function applySheet(t) {
   const p = pm(t);
   $.sheetChrome.style.opacity = (1 - pc(t)).toFixed(3);
   show($.sheetChrome, pc(t) < 1);
-  const err = pulse(t, K.err, 0.5);
-  $.ref.style.background = err > 0 ? `rgba(208,2,27,${(0.18 * err).toFixed(3)})` : "";
+  applyTyping(t);
 
   // numeri di riga → barra laterale
   rectCss($.side, mixRect({ x: 0, y: 84, w: SH.rn, h: 696, r: 0 }, { x: 0, y: 0, w: SIDE_W, h: 780, r: 0 }, p));
@@ -842,7 +861,7 @@ function applyMag(t) {
 function applyFat(t) {
   FAT.forEach((_, i) => rowMotion(t, $["f" + i], i, K.fat, K.leave.fat));
   // "Emetti fattura" diventa l'etichetta dello stato: inviata allo SdI, poi consegnata
-  const on = t >= K.fat + 0.15 && t < K.pull + 2;
+  const on = t >= K.fat + 0.15 && t < K.close + 1;
   show($.emit, on);
   show($.fp0, false);
   if (!on) return;
@@ -923,6 +942,57 @@ function placeRow(t, key, r, i, p, push) {
   rectCss(pill, { x: lerp(760, 762, p), y: lerp(2, 13, p), w: pw * sp, h: 26, r: 13 });
   pill.style.background = bg;
   show(pill, sp > 0);
+  if (i === TYPED) TYPE.forEach(([f], c) => { const v = typed(t, c); if ($[key + f].textContent !== v) $[key + f].textContent = v; });
+}
+
+const typed = (t, c) => {
+  const text = TYPE[c][2], { at } = K.cells[c];
+  return t < at ? "" : text.slice(0, clamp(Math.floor((t - at) / TYPE_SPEED) + 1, 0, text.length));
+};
+
+function applyTyping(t) {
+  // il cursore di Excel salta di cella in cella mentre si scrive, poi va sul totale
+  const y = SH.top + TYPED * SH.row, totY = SH.top + ORD.length * SH.row, cols = SH.cols;
+  const moves = [];
+  K.cells.forEach((c, i) => { if (i) moves.push({ t: c.at - 0.16, x: cols[TYPE[i][1]], w: cols[TYPE[i][1] + 1] - cols[TYPE[i][1]], y }); });
+  moves.push({ t: K.toTotal, x: cols[5], w: cols[6] - cols[5], y: totY });
+  const along = (f, base) => track(t, base, moves.map((m) => ({ t: m.t, d: 0.14, e: E.snappy, to: m[f] })));
+  const cell = { x: along("x", cols[0]), y: along("y", y), w: along("w", cols[1] - cols[0]), h: SH.row + 1, r: 0 };
+  rectCss($.cell, { ...cell, x: cell.x - 1, y: cell.y - 1, w: cell.w + 2 });
+  show($.cell, t >= K.open + 0.6 && t < K.wide);
+  $.cell.style.opacity = (1 - prog(t, K.wide - 0.3, 0.3)).toFixed(3);
+
+  // la barra della formula ripete quello che si scrive
+  let active = -1;
+  K.cells.forEach((c, i) => { if (t >= c.at - 0.16) active = i; });
+  let fx = active >= 0 ? typed(t, active) : "";
+  let typing = active >= 0 && t < K.cells[active].end + 0.05;
+  if (t >= K.toTotal) {
+    const n = t < K.formula ? 0 : clamp(Math.floor((t - K.formula) / 0.04) + 1, 0, FORMULA.length);
+    fx = FORMULA.slice(0, n);
+    typing = t < K.hit;
+  }
+  if ($.fxText.textContent !== fx) $.fxText.textContent = fx;
+
+  // il cursore di testo lampeggia alla fine di quello che si sta scrivendo
+  const blink = typing || Math.floor((t - K.open) / 0.45) % 2 === 0;
+  const inCell = t >= K.cells[0].at && t < K.toTotal && active >= 0;
+  if (inCell) {
+    const span = $[`r${TYPED}${TYPE[active][0]}`];
+    $.caret.style.left = (cols[TYPE[active][1]] + 6 + span.offsetWidth + 1) + "px";
+    $.caret.style.top = (y + 6) + "px";
+  } else if (t >= K.formula && t < K.hit) {
+    $.caret.style.left = (cols[5] + 6) + "px";
+    $.caret.style.top = (totY + 6) + "px";
+  }
+  show($.caret, (inCell || (t >= K.formula && t < K.hit)) && blink);
+
+  // Invio: il totale non torna, compare #RIF!
+  const ref = t >= K.hit ? "#RIF!" : "";
+  if ($.ref.textContent !== ref) $.ref.textContent = ref;
+  const err = pulse(t, K.hit, 0.5) + pulse(t, K.hit + 0.55, 0.5);
+  $.ref.style.background = t >= K.hit ? `rgba(208,2,27,${(0.1 + 0.2 * err).toFixed(3)})` : "";
+  setT($.ref, `scale(${(1 + 0.12 * pulse(t, K.hit, 0.35)).toFixed(4)})`);
 }
 
 </script>
