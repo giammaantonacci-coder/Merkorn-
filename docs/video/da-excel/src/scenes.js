@@ -2,7 +2,7 @@ film({ W: 1920, H: 1080, BPM: 120, BEATS: 23, holds: [[8.9, 2], [10.9, 3], [14.9
 
 // Bozza di prova: un foglio di calcolo caotico diventa un gestionale su misura.
 // Tutti i nomi, gli importi e i numeri d'ordine sono inventati.
-const BRAND = { name: "Merkorn", line: "Il gestionale su misura per come lavori." };
+const BRAND = { name: "MERKORN", line: "Software gestionale su misura", cta: "Prenota un appuntamento", url: "merkorn.com" };
 const CLIENT = "Rossi Forniture";
 
 // [n°, cliente, data, prodotto, q.tà, importo, stato nel foglio, stato pulito, nota, riempimento, inchiostro]
@@ -23,7 +23,7 @@ const ORD = [
   ["1054", "Idraulica Costa", "17/09", "Raccordi ottone", "300", "1.290,00", "consegnato", 2, "", "", ""],
 ];
 const NEW = ["1055", "Ristorante Da Pino", "18/09", "Teglie inox", "", "1.640,00", "", 0];
-const STATI = [["Da evadere", "#B4540A", "#FDEBD3"], ["In consegna", "#1F5FBF", "#E2ECFB"], ["Consegnato", "#1E7A46", "#DDF3E5"]];
+const STATI = [["Da evadere", "#FAB219", "rgba(250,178,25,.14)"], ["In consegna", "#6FB0E4", "rgba(58,143,208,.18)"], ["Consegnato", "#4CC94C", "rgba(12,163,12,.18)"]];
 
 // Foglio di calcolo, in punti finestra
 const SH = { top: 108, row: 30, rn: 40, cols: [40, 100, 300, 400, 580, 640, 760, 900, 1200] };
@@ -80,7 +80,7 @@ function build(stage) {
     const [num, cli, dat, pro, qty, imp, raw, , note, fill, ink] = r;
     const inkCss = ink ? `color:${ink};` : "";
     return `
-    <div class="abs" data-k="${key}" style="left:0;top:0;width:1200px;height:30px">
+    <div class="abs" data-k="${key}" style="left:0;top:0;width:1200px;height:30px;color:#222">
       <div class="abs" data-k="${key}Bg" style="left:0;top:0;width:100%;height:100%"></div>
       <span class="abs t" data-k="${key}Rn" style="left:0;width:${SH.rn}px;top:7px;text-align:center;font-size:12px;color:#777">${i + 2}</span>
       ${txt(key + "num", num, inkCss)}${txt(key + "cli", cli, inkCss + (i === 1 ? "font-weight:700;" : ""))}${txt(key + "dat", dat, inkCss)}
@@ -94,8 +94,8 @@ function build(stage) {
   };
 
   const app = `
-    <div class="full" style="background:#FFFFFF"></div>
-    <div class="abs" data-k="sheetChrome" style="left:0;top:0;width:1200px;height:780px">
+    <div class="full" data-k="appBg" style="background:#FFFFFF"></div>
+    <div class="abs" data-k="sheetChrome" style="left:0;top:0;width:1200px;height:780px;color:#222">
       <div class="abs" style="left:0;top:0;width:1200px;height:52px;background:#1D6F42"></div>
       <span class="abs t" style="left:0;width:1200px;top:15px;text-align:center;font-size:14px;font-weight:600;color:#fff">ORDINI_def_v3 (copia) (2).xlsx</span>
       <div class="abs row" style="left:0;top:52px;width:1200px;height:32px;background:#F7F7F7;box-shadow:inset 0 -1px 0 #D6D6D6;padding-left:12px;gap:14px;font-size:13px">
@@ -115,12 +115,12 @@ function build(stage) {
       <i style="width:26px;height:26px;border-radius:7px;background:#C2410C"></i><span class="t" style="font-size:16px;font-weight:700">${CLIENT}</span>
     </div>
     ${MENU.map((m, k) => `<div class="abs" data-k="menu${k}" style="border-radius:8px">
-      <div class="abs mask" style="left:12px;top:0;width:180px;height:34px"><span class="abs t" data-k="menuT${k}" style="left:0;top:7px;font-size:15px;font-weight:${k === 1 ? 600 : 500};color:${k === 1 ? "var(--accent)" : "var(--ink2)"}">${m}</span></div>
+      <div class="abs mask" style="left:12px;top:0;width:180px;height:34px"><span class="abs t" data-k="menuT${k}" style="left:0;top:7px;font-size:15px;font-weight:${k === 1 ? 600 : 500};color:${k === 1 ? "var(--ink)" : "var(--ink2)"}">${m}</span></div>
     </div>`).join("")}
     ${TABS.map(([label], k) => `<span class="abs t" data-k="tab${k}" style="left:0;top:0;font-size:12.5px;color:${k === 3 ? "#D0021B" : "#333"};font-weight:${k === 0 ? 700 : 400}">${label}</span>`).join("")}
-    <div class="abs mask" style="left:${GT.x}px;top:20px;width:400px;height:48px"><span class="abs t" data-k="title" style="left:0;top:0;font-size:30px;font-weight:700;letter-spacing:-.5px;line-height:46px">Ordini</span></div>
-    <div class="abs center" data-k="btn" style="left:${BTN.x}px;top:${BTN.y}px;width:${BTN.w}px;height:${BTN.h}px;border-radius:10px;background:var(--accent);color:#fff;font-size:15px;font-weight:600">+ Nuovo ordine</div>
-    ${CHIPS.map(([l, n], k) => `<div class="abs row" data-k="chip${k}" style="left:0;top:84px;height:34px;padding:0 14px;gap:8px;border-radius:17px;font-size:14px;font-weight:500;${k ? "background:var(--side);color:var(--ink2)" : "background:var(--ink);color:#fff"}"><span>${l}</span><span data-k="chipN${k}" style="opacity:.6">${n}</span></div>`).join("")}
+    <div class="abs mask" style="left:${GT.x}px;top:20px;width:400px;height:48px"><span class="abs t" data-k="title" style="left:0;top:0;font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:46px">Ordini</span></div>
+    <div class="abs center" data-k="btn" style="left:${BTN.x}px;top:${BTN.y}px;width:${BTN.w}px;height:${BTN.h}px;border-radius:14px;background:var(--accent);color:var(--ink);font-size:15px;font-weight:600">+ Nuovo ordine</div>
+    ${CHIPS.map(([l, n], k) => `<div class="abs row" data-k="chip${k}" style="left:0;top:84px;height:34px;padding:0 14px;gap:8px;border-radius:10px;font-size:14px;font-weight:600;${k ? "box-shadow:inset 0 0 0 1px var(--hair);color:var(--ink2)" : "background:var(--ink);color:var(--winBg)"}"><span>${l}</span><span data-k="chipN${k}" style="opacity:.6">${n}</span></div>`).join("")}
     ${KPI.map((c, k) => `<div class="abs" data-k="kpi${k}" style="overflow:hidden">
       <div class="abs mask" style="left:20px;top:16px;width:260px;height:22px"><span class="abs t" data-k="kpiL${k}" style="left:0;top:0;font-size:14px;color:var(--ink2);line-height:22px">${c.label}</span></div>
       <div class="abs mask" style="left:20px;top:40px;width:260px;height:42px"><div class="abs" data-k="kpiV${k}" style="left:0;top:0;width:260px;height:42px"></div></div>
@@ -133,30 +133,36 @@ function build(stage) {
     <div class="full" data-k="seal" style="background:var(--accent)"></div>`;
 
   stage.innerHTML = `
-    <div class="full" style="background:var(--bg)"></div>
+    ${nebulaHtml()}
     ${desktopMarkup(app, { name: CLIENT })}
     <div class="full" data-k="word">
-      <div class="abs" data-k="mark" style="background:var(--accent)"></div>
-      <div class="abs mask" data-k="wmClip"><div data-k="wm" class="t" style="font-size:150px;font-weight:800;letter-spacing:-.045em;line-height:1.25">${BRAND.name}</div></div>
-      <div class="abs mask" data-k="lnClip" style="height:60px"><div data-k="ln" class="t" style="font-size:42px;font-weight:500;color:var(--ink2);line-height:58px;letter-spacing:-.01em">${BRAND.line}</div></div>
+      ${markHtml("mk")}
+      <div class="abs mask" data-k="wmClip"><div data-k="wm" class="t" style="font-family:var(--display);font-size:92px;font-weight:700;letter-spacing:.32em;line-height:1.25">${BRAND.name}</div></div>
+      <div class="abs mask" data-k="lnClip" style="height:56px"><div data-k="ln" class="t" style="font-size:38px;font-weight:500;color:var(--ink2);line-height:54px">${BRAND.line}</div></div>
+      <div class="abs center" data-k="cta" style="height:66px;border-radius:14px;background:var(--accent);font-size:21px;font-weight:600">${BRAND.cta}</div>
+      <div class="abs mask" data-k="urlClip" style="height:36px"><div data-k="url" class="t" style="font-size:22px;font-weight:500;letter-spacing:.04em;color:var(--ink2);line-height:34px">${BRAND.url}</div></div>
     </div>`;
   collect(stage);
-  for (let k = 0; k < KPI.length; k++) $["kpiR" + k] = roller($["kpiV" + k], "font-size:30px;font-weight:700;letter-spacing:-.5px;line-height:42px");
+  for (let k = 0; k < KPI.length; k++) $["kpiR" + k] = roller($["kpiV" + k], "font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:42px");
   for (let k = 0; k < CHIPS.length; k++) $["chipW" + k] = measure(CHIPS[k][0] + "  " + CHIPS[k][1], 14, 500) + 36;
 
-  const wmW = measure(BRAND.name, 150, 800, "letter-spacing:-.045em"), markS = 128, gap = 44;
-  const total = markS + gap + wmW;
-  WM.markX = Math.round((FILM.W - total) / 2);
-  WM.markY = 372;
-  WM.markS = markS;
-  Object.assign($.wmClip.style, { left: WM.markX + markS + gap + "px", top: WM.markY - 26 + "px", width: Math.ceil(wmW + 10) + "px", height: "188px" });
-  const lnW = measure(BRAND.line, 42, 500, "letter-spacing:-.01em");
-  Object.assign($.lnClip.style, { left: Math.round((FILM.W - lnW) / 2) + "px", top: "584px", width: Math.ceil(lnW + 6) + "px" });
+  const S = 60, wmW = measure(BRAND.name, 92, 700, "letter-spacing:.32em"), trail = 0.32 * 92;
+  Object.assign(WM, { s: S, x: Math.round((FILM.W - 5 * S) / 2), y: 214 });
+  WM.top = { x: WM.x + 2 * S, y: WM.y, w: S, h: S, r: S * 0.12 };
+  Object.assign($.wmClip.style, { left: Math.round((FILM.W - (wmW - trail)) / 2) + "px", top: "452px", width: Math.ceil(wmW + 6) + "px", height: "118px" });
+  const lnW = measure(BRAND.line, 38, 500);
+  Object.assign($.lnClip.style, { left: Math.round((FILM.W - lnW) / 2) + "px", top: "590px", width: Math.ceil(lnW + 6) + "px" });
+  const ctaW = Math.ceil(measure(BRAND.cta, 21, 600) + 56);
+  Object.assign($.cta.style, { left: Math.round((FILM.W - ctaW) / 2) + "px", top: "690px", width: ctaW + "px" });
+  const urlW = measure(BRAND.url, 22, 500, "letter-spacing:.04em");
+  Object.assign($.urlClip.style, { left: Math.round((FILM.W - urlW) / 2) + "px", top: "786px", width: Math.ceil(urlW + 8) + "px" });
 }
 const WM = {};
 
 function apply(t) {
+  placeNebula(t, $.neb);
   const v = camera(t);
+  $.appBg.style.background = `color-mix(in srgb, var(--winBg) ${(pc(t) * 100).toFixed(1)}%, #FFFFFF)`;
   const closing = prog(t, K.close, 0.6, E.inOut);
   show($.world, closing < 1);
   if (closing < 1) {
@@ -184,9 +190,8 @@ function camera(t) {
 }
 
 function markInWindow(v) {
-  const s = WM.markS;
-  const x = (WM.markX - FILM.W / 2) / v.z + v.cx - WIN.x, y = (WM.markY - FILM.H / 2) / v.z + v.cy - WIN.y;
-  return { x, y, w: s / v.z, h: s / v.z, r: 28 / v.z };
+  const m = WM.top;
+  return { x: (m.x - FILM.W / 2) / v.z + v.cx - WIN.x, y: (m.y - FILM.H / 2) / v.z + v.cy - WIN.y, w: m.w / v.z, h: m.h / v.z, r: m.r / v.z };
 }
 
 // La trasformazione: ogni riga, colonna e scheda del foglio diventa un pezzo del gestionale.
@@ -203,7 +208,7 @@ function applySheet(t) {
   // numeri di riga → barra laterale
   const side = mixRect({ x: 0, y: 84, w: SH.rn, h: 696, r: 0 }, { x: 0, y: 0, w: SIDE_W, h: 780, r: 0 }, p);
   rectCss($.side, side);
-  $.side.style.background = `color-mix(in srgb, var(--side) ${(p * 100).toFixed(1)}%, #F2F2F2)`;
+  $.side.style.background = `color-mix(in srgb, var(--side) ${(pc(t) * 100).toFixed(1)}%, #F2F2F2)`;
   $.side.style.boxShadow = `inset -1px 0 0 ${p > 0.5 ? "var(--hair)" : "#D6D6D6"}`;
   const br = spring(t, K.labels, 0.5, 0.88);
   show($.brand, t >= K.labels);
@@ -222,7 +227,9 @@ function applySheet(t) {
   MENU.forEach((_, k) => {
     const el = $["menu" + k];
     rectCss(el, { x: 12, y: 100 + k * 40, w: 196, h: 34, r: 8 });
-    el.style.background = k === 1 && t >= K.labels ? `rgba(36,87,214,${(0.1 * prog(t, K.labels, 0.3)).toFixed(3)})` : "";
+    const sel = k === 1 ? prog(t, K.labels, 0.3) : 0;
+    el.style.background = sel > 0 ? `rgba(30,26,35,${sel.toFixed(3)})` : "";
+    el.style.boxShadow = sel > 0 ? `inset ${(3 * sel).toFixed(2)}px 0 0 var(--accent)` : "";
     const at = K.morph + 0.75 + k * 0.05;
     show(el, t >= at);
     rise($["menuT" + k], clamp(spring(t, at, 0.45, 0.88), 0, 1));
@@ -254,7 +261,8 @@ function applyApp(t) {
     const to = { x: GT.x + k * (KPI_W + 20), y: KPI_Y, w: KPI_W, h: KPI_H, r: 14 };
     const el = $["kpi" + k];
     rectCss(el, mixRect(from, to, prog(t, K.morph + 0.15 + k * 0.05, 0.85, E.inOut)));
-    el.style.background = `color-mix(in srgb, var(--side) ${(p * 100).toFixed(1)}%, #FAFAFA)`;
+    el.style.background = `color-mix(in srgb, var(--surface) ${(pc(t) * 100).toFixed(1)}%, #FAFAFA)`;
+    el.style.boxShadow = p > 0.5 ? "inset 0 0 0 1px var(--hair)" : "";
     show(el, t >= K.morph);
     show($["kpiL" + k], t >= K.labels);
     rise($["kpiL" + k], clamp(spring(t, K.labels + k * 0.06, 0.5, 0.88), 0, 1));
@@ -294,7 +302,7 @@ function placeRow(t, key, r, i, p, push) {
   rectCss(el, rect);
   const fill = r[9] || "#FFFFFF";
   const fresh = isNew ? 1 - prog(t, K.newRow + 1.4, 1.4) : 0;
-  $[key + "Bg"].style.background = isNew ? `color-mix(in srgb, var(--accentSoft) ${(fresh * 100).toFixed(1)}%, #fff)` : `color-mix(in srgb, #FFFFFF ${(c * 100).toFixed(1)}%, ${fill})`;
+  $[key + "Bg"].style.background = isNew ? `color-mix(in srgb, #2A1F3D ${(fresh * 100).toFixed(1)}%, var(--winBg))` : `color-mix(in srgb, var(--winBg) ${(c * 100).toFixed(1)}%, ${fill})`;
   $[key + "Bg"].style.borderRadius = rect.r.toFixed(2) + "px";
   const gone = far ? 1 : 1 - prog(t, K.morph, 0.3, E.in);
   for (const k of ["Rn", "Qty", "Note"]) { $[key + k].style.opacity = gone.toFixed(3); show($[key + k], gone > 0 && !isNew); }
@@ -334,8 +342,13 @@ function applyWord(t) {
   const on = t >= K.close + 0.3;
   show($.word, on);
   if (!on) return;
-  rectCss($.mark, { x: WM.markX, y: WM.markY, w: WM.markS, h: WM.markS, r: 28 });
-  show($.mark, t >= K.close + 0.6);
+  // la finestra è diventata il blocco in cima: gli altri quattro scendono da lì e formano il marchio
+  const order = [0, 1, 2, 3, 4];
+  placeMark("mk", WM.x, WM.y, WM.s, (i) => (i === 0 ? (t >= K.close + 0.6 ? 1 : 0) : spring(t, K.close + 0.6 + order[i] * 0.07, 0.5, 0.8)));
   rise($.wm, clamp(spring(t, K.word, 0.55, 0.88), 0, 1));
   rise($.ln, clamp(spring(t, K.line, 0.55, 0.88), 0, 1));
+  const c = clamp(spring(t, K.line + 0.25, 0.45, 0.7), 0, 1.06);
+  show($.cta, t >= K.line + 0.25);
+  setT($.cta, `scale(${c.toFixed(4)})`);
+  rise($.url, clamp(spring(t, K.line + 0.45, 0.55, 0.88), 0, 1));
 }

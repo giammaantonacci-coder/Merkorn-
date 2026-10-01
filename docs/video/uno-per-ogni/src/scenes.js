@@ -2,16 +2,18 @@ film({ W: 1080, H: 1920, BPM: 120, BEATS: 36 });
 
 // Bozza di prova: la stessa finestra cambia forma per tre aziende diverse.
 // Aziende, targhe, persone e numeri sono inventati.
-const BRAND = { name: "Merkorn", line: "Un gestionale su misura, per ognuna." };
+const BRAND = { name: "MERKORN", line: "Software gestionale su misura", cta: "Prenota un appuntamento", url: "merkorn.com" };
+const GOOD = "#4CC94C", GOOD_BG = "rgba(12,163,12,.18)", WARN = "#FAB219", WARN_BG = "rgba(250,178,25,.14)";
+const BLUE = "#6FB0E4", BLUE_BG = "rgba(58,143,208,.18)", CRIT = "#FF8A7A", CRIT_BG = "rgba(208,59,59,.2)";
 const PILL = {
-  lav: ["In lavorazione", "#1F5FBF", "#E2ECFB"], pronta: ["Pronta", "#1E7A46", "#DDF3E5"], attesa: ["Attesa ricambi", "#B4540A", "#FDEBD3"],
-  pren: ["Prenotata", "#5B5B66", "#EEEEF2"], viaggio: ["In viaggio", "#1F5FBF", "#E2ECFB"], cons: ["Consegnata", "#1E7A46", "#DDF3E5"],
-  carico: ["In carico", "#5B5B66", "#EEEEF2"], ritardo: ["In ritardo", "#B42318", "#FDE3E1"], corso: ["In corso", "#1F5FBF", "#E2ECFB"],
-  quasi: ["Collaudo", "#6D28D9", "#EDE6FD"], ferma: ["Ferma", "#B42318", "#FDE3E1"], fatta: ["Completata", "#1E7A46", "#DDF3E5"],
+  lav: ["In lavorazione", BLUE, BLUE_BG], pronta: ["Pronta", GOOD, GOOD_BG], attesa: ["Attesa ricambi", WARN, WARN_BG],
+  pren: ["Prenotata", "#A7A2AE", "rgba(242,239,234,.08)"], viaggio: ["In viaggio", BLUE, BLUE_BG], cons: ["Consegnata", GOOD, GOOD_BG],
+  carico: ["In carico", "#A7A2AE", "rgba(242,239,234,.08)"], ritardo: ["In ritardo", CRIT, CRIT_BG], corso: ["In corso", BLUE, BLUE_BG],
+  quasi: ["Collaudo", "#C29BFF", "rgba(151,71,255,.2)"], ferma: ["Ferma", CRIT, CRIT_BG], fatta: ["Completata", GOOD, GOOD_BG],
 };
 const SCENES = [
   {
-    bg: "#FFD23F", head: ["Un'officina", "meccanica."], sticker: "Interventi, targhe, ricambi.",
+    hue: [[151, 71, 255], [109, 40, 217]], accent: "#B57BFF", head: ["Un'officina", "meccanica."], sticker: "Interventi, targhe, ricambi.",
     client: ["Officina Neri", "#E4572E"], tabs: ["Interventi", "Veicoli", "Ricambi", "Clienti"], title: "Interventi di oggi",
     kpi: [["In officina", ["7", "6"]], ["Pronte al ritiro", ["3", "4"]]],
     rows: [["Tagliando e freni", "Fiat Panda · FR 482 KL", "lav", "pronta"], ["Cambio gomme", "VW Golf · GM 105 TS", "pronta"],
@@ -20,7 +22,7 @@ const SCENES = [
       ["Convergenza", "Kia Picanto · GC 609 RE", "pren"]],
   },
   {
-    bg: "#3A86FF", head: ["Un'azienda", "di trasporti."], sticker: "Viaggi, mezzi, autisti.",
+    hue: [[58, 143, 208], [40, 70, 170]], accent: "#6FB0E4", head: ["Un'azienda", "di trasporti."], sticker: "Viaggi, mezzi, autisti.",
     client: ["Trasporti Valli", "#1D4ED8"], tabs: ["Spedizioni", "Mezzi", "Autisti", "Clienti"], title: "Consegne di oggi",
     kpi: [["In viaggio", ["12", "11"]], ["Consegnate", ["28", "29"]]],
     rows: [["Milano → Bologna", "6 bancali · Luca Ferri", "viaggio", "cons"], ["Torino → Genova", "3 bancali · Marta Sala", "cons"],
@@ -29,7 +31,7 @@ const SCENES = [
       ["Pavia → Lodi", "7 bancali · Elia Costa", "carico"]],
   },
   {
-    bg: "#FF5D8F", head: ["Un laboratorio", "di produzione."], sticker: "Commesse, fasi, macchine.",
+    hue: [[184, 134, 42], [140, 70, 30]], accent: "#E0B25A", head: ["Un laboratorio", "di produzione."], sticker: "Commesse, fasi, macchine.",
     client: ["Laboratorio Gatti", "#BE185D"], tabs: ["Commesse", "Produzione", "Macchine", "Magazzino"], title: "Avanzamento commesse",
     kpi: [["Commesse aperte", ["9", "9"]], ["Da consegnare", ["4", "4"]]],
     rows: [["C-214 · Telai inox", "Saldatura", "corso", "corso", 0.6, 0.75], ["C-215 · Staffe su misura", "Taglio laser", "corso", "", 0.3],
@@ -37,9 +39,9 @@ const SCENES = [
       ["C-218 · Supporti motore", "Attesa materiale", "ferma", "", 0], ["C-219 · Cornici alluminio", "Spedita", "fatta", "", 1],
       ["C-220 · Pannelli forati", "Taglio laser", "corso", "", 0.15]],
   },
-  { bg: "#FFD23F", head: ["E la tua", "azienda?"] },
+  { hue: [[151, 71, 255], [109, 40, 217]], accent: "#B57BFF", head: ["E la vostra", "azienda?"] },
 ];
-const HEAD = { x: 72, y: 132, size: 112, lh: 129 };
+const HEAD = { x: 72, y: 136, size: 108, lh: 124 };
 const ROW = { x: 24, y: 330, h: 88, w: 772 };
 const CARD = { y: 196, h: 108, w: 378, gap: 16 };
 const Z = 1.2, VIEW = view(WIN.x + WIN.w / 2, WIN.y + 430, Z);
@@ -61,7 +63,7 @@ function build(stage) {
       <div class="abs mask" style="left:96px;top:14px;width:420px;height:36px"><div class="abs row" data-k="brand${k}" style="left:0;top:0;height:36px;gap:10px">
         <i style="width:24px;height:24px;border-radius:7px;background:${s.client[1]}"></i><span class="t" style="font-size:18px;font-weight:700">${s.client[0]}</span></div></div>
       ${s.tabs.map((tab, i) => `<div class="abs mask" style="left:${24 + i * 150}px;top:70px;width:150px;height:40px"><span class="abs t" data-k="tab${k}_${i}" style="left:0;top:8px;font-size:17px;font-weight:${i ? 500 : 700};color:${i ? "var(--ink2)" : "var(--ink)"}">${tab}</span></div>`).join("")}
-      <div class="abs mask" style="left:24px;top:132px;width:760px;height:50px"><span class="abs t" data-k="title${k}" style="left:0;top:0;font-size:34px;font-weight:700;letter-spacing:-.6px;line-height:48px">${s.title}</span></div>
+      <div class="abs mask" style="left:24px;top:132px;width:760px;height:50px"><span class="abs t" data-k="title${k}" style="left:0;top:0;font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.03em;line-height:48px">${s.title}</span></div>
       ${s.kpi.map(([label], i) => `
         <div class="abs mask" style="left:${24 + i * (CARD.w + CARD.gap) + 22}px;top:${CARD.y + 18}px;width:330px;height:26px"><span class="abs t" data-k="kl${k}_${i}" style="left:0;top:0;font-size:17px;color:var(--ink2);line-height:26px">${label}</span></div>
         <div class="abs mask" style="left:${24 + i * (CARD.w + CARD.gap) + 22}px;top:${CARD.y + 48}px;width:330px;height:50px"><div class="abs" data-k="kv${k}_${i}" style="left:0;top:0;width:330px;height:50px"></div></div>`).join("")}
@@ -75,41 +77,48 @@ function build(stage) {
         </div>`).join("")}
     </div>`;
   const app = `
-    <div class="full" style="background:#fff"></div>
+    <div class="full" style="background:var(--winBg)"></div>
     <i class="abs" style="left:0;top:64px;width:${WIN.w}px;height:1px;background:var(--hair)"></i>
     <i class="abs" style="left:0;top:114px;width:${WIN.w}px;height:1px;background:var(--hair)"></i>
     <div class="abs" data-k="tabLine" style="top:111px;height:3px;border-radius:2px"></div>
-    ${[0, 1].map((i) => `<div class="abs" style="left:${24 + i * (CARD.w + CARD.gap)}px;top:${CARD.y}px;width:${CARD.w}px;height:${CARD.h}px;border-radius:16px;background:var(--side)"></div>`).join("")}
+    ${[0, 1].map((i) => `<div class="abs" style="left:${24 + i * (CARD.w + CARD.gap)}px;top:${CARD.y}px;width:${CARD.w}px;height:${CARD.h}px;border-radius:16px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--hair)"></div>`).join("")}
     <div class="abs mask" style="left:0;top:${ROW.y}px;width:${WIN.w}px;height:${WIN.h - ROW.y}px"><div class="abs" style="left:0;top:${-ROW.y}px;width:${WIN.w}px;height:${WIN.h}px">
       ${SCENES.slice(0, 3).map((s, k) => `<div class="full" data-k="R${k}"></div>`).join("")}
     </div></div>
     ${SCENES.slice(0, 3).map(layer).join("")}`;
 
   stage.innerHTML = `
-    <div class="full" data-k="bgBase"></div>
-    <div class="full" data-k="bgWipe"></div>
+    ${nebulaHtml("bgBase")}
+    ${nebulaHtml("bgWipe")}
     ${[0, 1].map((l) => `<div class="abs mask" style="left:${HEAD.x - 8}px;top:${HEAD.y + l * HEAD.lh}px;width:${FILM.W - HEAD.x}px;height:${HEAD.lh + 8}px">
-      ${SCENES.map((s, k) => `<span class="abs t" data-k="h${k}_${l}" style="left:8px;top:0;font-size:${HEAD.size}px;font-weight:800;letter-spacing:-.045em;line-height:${HEAD.lh}px">${s.head[l]}</span>`).join("")}</div>`).join("")}
+      ${SCENES.map((s, k) => `<span class="abs t" data-k="h${k}_${l}" style="left:8px;top:0;font-family:var(--display);font-size:${HEAD.size}px;font-weight:700;letter-spacing:-.035em;line-height:${HEAD.lh}px;color:${l ? s.accent : "var(--ink)"}">${s.head[l]}</span>`).join("")}</div>`).join("")}
     ${desktopMarkup(app, { name: "" })}
-    ${SCENES.slice(0, 3).map((s, k) => `<div class="abs center" data-k="st${k}" style="left:0;top:0;height:92px;padding:0 34px;border-radius:20px;background:#fff;box-shadow:0 0 0 4px #111,9px 9px 0 4px #111;font-size:40px;font-weight:700;letter-spacing:-.02em;white-space:nowrap">${s.sticker}</div>`).join("")}
+    ${SCENES.slice(0, 3).map((s, k) => `<div class="abs center" data-k="st${k}" style="left:0;top:0;height:84px;padding:0 34px;border-radius:18px;background:rgba(16,14,19,.84);box-shadow:inset 0 0 0 1px var(--hair);font-size:36px;font-weight:600;letter-spacing:-.01em;white-space:nowrap">${s.sticker}</div>`).join("")}
     <div class="full" data-k="end">
-      <div class="abs" data-k="mark" style="background:#111"></div>
-      <div class="abs mask" data-k="wmClip"><div data-k="wm" class="t" style="font-size:150px;font-weight:800;letter-spacing:-.045em;line-height:1.25">${BRAND.name}</div></div>
-      <div class="abs mask" data-k="lnClip" style="height:62px"><div data-k="ln" class="t" style="font-size:44px;font-weight:600;line-height:60px;letter-spacing:-.015em">${BRAND.line}</div></div>
+      ${markHtml("mk")}
+      <div class="abs mask" data-k="wmClip"><div data-k="wm" class="t" style="font-family:var(--display);font-size:84px;font-weight:700;letter-spacing:.32em;line-height:1.25">${BRAND.name}</div></div>
+      <div class="abs mask" data-k="lnClip" style="height:58px"><div data-k="ln" class="t" style="font-size:40px;font-weight:500;color:var(--ink2);line-height:56px">${BRAND.line}</div></div>
+      <div class="abs center" data-k="cta" style="height:76px;border-radius:14px;background:var(--accent);font-size:26px;font-weight:600">${BRAND.cta}</div>
+      <div class="abs mask" data-k="urlClip" style="height:40px"><div data-k="url" class="t" style="font-size:26px;font-weight:500;letter-spacing:.04em;color:var(--ink2);line-height:38px">${BRAND.url}</div></div>
     </div>`;
   collect(stage);
   // le righe vivono nel contenitore con maschera, così entrano ed escono dal bordo della lista
   SCENES.slice(0, 3).forEach((s, k) => s.rows.forEach((_, i) => $["R" + k].appendChild($[`row${k}_${i}`])));
-  SCENES.slice(0, 3).forEach((s, k) => s.kpi.forEach((_, i) => { $[`kr${k}_${i}`] = roller($[`kv${k}_${i}`], "font-size:40px;font-weight:800;letter-spacing:-1px;line-height:50px"); }));
+  SCENES.slice(0, 3).forEach((s, k) => s.kpi.forEach((_, i) => { $[`kr${k}_${i}`] = roller($[`kv${k}_${i}`], "font-family:var(--display);font-size:42px;font-weight:700;letter-spacing:-.02em;line-height:50px"); }));
   SCENES.slice(0, 3).forEach((s, k) => {
-    s.stW = Math.ceil(measure(s.sticker, 40, 700, "letter-spacing:-.02em") + 68);
+    s.stW = Math.ceil(measure(s.sticker, 36, 600, "letter-spacing:-.01em") + 68);
     s.tabW = measure(s.tabs[0], 17, 700);
   });
-  const wmW = measure(BRAND.name, 150, 800, "letter-spacing:-.045em");
-  END.mark = { x: (FILM.W - 150) / 2, y: 700, w: 150, h: 150, r: 34 };
-  Object.assign($.wmClip.style, { left: Math.round((FILM.W - wmW) / 2) + "px", top: "880px", width: Math.ceil(wmW + 10) + "px", height: "188px" });
-  const lnW = measure(BRAND.line, 44, 600, "letter-spacing:-.015em");
-  Object.assign($.lnClip.style, { left: Math.round((FILM.W - lnW) / 2) + "px", top: "1090px", width: Math.ceil(lnW + 6) + "px" });
+  const S = 70, wmW = measure(BRAND.name, 84, 700, "letter-spacing:.32em"), trail = 0.32 * 84;
+  Object.assign(END, { s: S, x: Math.round((FILM.W - 5 * S) / 2), y: 640 });
+  END.top = { x: END.x + 2 * S, y: END.y, w: S, h: S, r: S * 0.12 };
+  Object.assign($.wmClip.style, { left: Math.round((FILM.W - (wmW - trail)) / 2) + "px", top: "900px", width: Math.ceil(wmW + 6) + "px", height: "108px" });
+  const lnW = measure(BRAND.line, 40, 500);
+  Object.assign($.lnClip.style, { left: Math.round((FILM.W - lnW) / 2) + "px", top: "1030px", width: Math.ceil(lnW + 6) + "px" });
+  const ctaW = Math.ceil(measure(BRAND.cta, 26, 600) + 64);
+  Object.assign($.cta.style, { left: Math.round((FILM.W - ctaW) / 2) + "px", top: "1140px", width: ctaW + "px" });
+  const urlW = measure(BRAND.url, 26, 500, "letter-spacing:.04em");
+  Object.assign($.urlClip.style, { left: Math.round((FILM.W - urlW) / 2) + "px", top: "1250px", width: Math.ceil(urlW + 8) + "px" });
 }
 const END = {};
 
@@ -123,8 +132,7 @@ function apply(t) {
     const v = view(VIEW.cx, VIEW.cy, Z * (1 + 0.02 * loop(t, 2)));
     const rect = close > 0 ? mixRect(FULL, markInWindow(v), close) : FULL;
     placeWorld(v, { rect, chrome: 1 - prog(t, K.sc[3] + 0.35, 0.2), desk: 0, hw: 0 });
-    $.winShadow.style.boxShadow = `${(14 * (1 - close)).toFixed(2)}px ${(14 * (1 - close)).toFixed(2)}px 0 4px #111, 0 0 0 4px #111`;
-    $.winClip.style.background = close > 0.5 ? "#111" : "";
+    $.winClip.style.background = close > 0.5 ? "var(--accent)" : "";
     show($.L0, close < 0.5); show($.L1, close < 0.5); show($.L2, close < 0.5);
     applyApp(t, k);
     show($.pointer, false);
@@ -135,10 +143,10 @@ function apply(t) {
 
 function applyBg(t, k) {
   // il nuovo colore si allarga dalla finestra
-  const prev = k > 0 ? SCENES[k - 1].bg : SCENES[0].bg;
-  $.bgBase.style.background = prev;
+  const prev = SCENES[Math.max(0, k - 1)];
+  placeNebula(t, $.bgBase, ...prev.hue, 1.25);
   const p = k > 0 ? prog(t, K.sc[k] - 0.05, 0.7, E.inOut) : 1;
-  $.bgWipe.style.background = SCENES[k].bg;
+  placeNebula(t, $.bgWipe, ...SCENES[k].hue, 1.25);
   const c = toStage(VIEW, VIEW.cx, VIEW.cy);
   $.bgWipe.style.clipPath = p >= 1 ? "" : `circle(${(p * 2300).toFixed(1)}px at ${c.x.toFixed(1)}px ${c.y.toFixed(1)}px)`;
 }
@@ -207,16 +215,17 @@ function applyStickers(t) {
   SCENES.slice(0, 3).forEach((s, k) => {
     const el = $["st" + k];
     const a = enterAt(k) + 0.9, d = leaveAt(k) - 0.05;
-    const pop = clamp(spring(t, a, 0.42, 0.62), 0, 1.2), out = prog(t, d, 0.25, E.in);
+    const pop = clamp(spring(t, a, 0.5, 0.8), 0, 1.1), out = prog(t, d, 0.25, E.in);
     show(el, t >= a && out < 1);
     el.style.left = Math.round((FILM.W - s.stW) / 2) + "px";
     el.style.top = "1692px";
-    el.style.transform = `rotate(${k % 2 ? 2.5 : -3}deg) scale(${(pop * (1 - out)).toFixed(4)})`;
+    el.style.transform = `translateY(${((1 - Math.min(pop, 1)) * 30).toFixed(2)}px) scale(${(0.9 + 0.1 * pop) * (1 - out)})`;
+    el.style.opacity = Math.min(1, pop * 1.4).toFixed(3);
   });
 }
 
 function markInWindow(v) {
-  const m = END.mark;
+  const m = END.top;
   return { x: (m.x - FILM.W / 2) / v.z + v.cx - WIN.x, y: (m.y - FILM.H / 2) / v.z + v.cy - WIN.y, w: m.w / v.z, h: m.h / v.z, r: m.r / v.z };
 }
 
@@ -224,7 +233,12 @@ function applyEnd(t) {
   const on = t >= K.sc[3] + 0.9;
   show($.end, on);
   if (!on) return;
-  rectCss($.mark, END.mark);
-  rise($.wm, clamp(spring(t, K.sc[3] + 1.0, 0.55, 0.88), 0, 1));
-  rise($.ln, clamp(spring(t, K.sc[3] + 1.5, 0.55, 0.88), 0, 1));
+  const a = K.sc[3] + 0.95;
+  placeMark("mk", END.x, END.y, END.s, (i) => (i === 0 ? 1 : spring(t, a + i * 0.07, 0.5, 0.8)));
+  rise($.wm, clamp(spring(t, a + 0.45, 0.55, 0.88), 0, 1));
+  rise($.ln, clamp(spring(t, a + 0.85, 0.55, 0.88), 0, 1));
+  const c = clamp(spring(t, a + 1.15, 0.45, 0.7), 0, 1.06);
+  show($.cta, t >= a + 1.15);
+  setT($.cta, `scale(${c.toFixed(4)})`);
+  rise($.url, clamp(spring(t, a + 1.35, 0.55, 0.88), 0, 1));
 }

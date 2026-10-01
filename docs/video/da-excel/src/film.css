@@ -1,23 +1,31 @@
 :root {
-  --bg: #EEE9E1;
-  --ink: #161617;
-  --ink2: #57534D;
-  --ink3: #8B867E;
-  --hair: rgba(22, 22, 23, 0.08);
-  --accent: #2457D6;
-  --accentSoft: #E4EBFB;
-  --winBg: #FFFFFF;
-  --side: #F5F3EF;
-  --wall1: #E4DCCF;
-  --wall2: #AEB9CB;
-  --menuBg: rgba(255, 255, 255, 0.55);
-  --menuInk: #1B1B1D;
-  --dockBg: rgba(255, 255, 255, 0.42);
-  --tile0: #D9D4CB;
-  --tile1: #C9CFD8;
-  --tile2: #E2DDD5;
-  --metal1: #D7D8DB;
-  --metal2: #A7AAB0;
+  /* Merkorn, brand identity 2026 (dal sito) */
+  --scene: #08070B;
+  --bg: #08070B;
+  --ink: #F2EFEA;
+  --ink2: #A7A2AE;
+  --ink3: #8C8794;
+  --hair: rgba(242, 239, 234, 0.14);
+  --accent: #9747FF;
+  --accentSoft: rgba(151, 71, 255, 0.18);
+  --field: #6D28D9;
+  --winBg: #100E13;
+  --side: #0D0B10;
+  --surface: #17141B;
+  --lift2: #1E1A23;
+  --shade: #000000;
+  --edge: rgba(242, 239, 234, 0.14);
+  --display: "DM Sans", "Inter", sans-serif;
+  --wall1: #17141B;
+  --wall2: #08070B;
+  --menuBg: rgba(16, 14, 19, 0.6);
+  --menuInk: #F2EFEA;
+  --dockBg: rgba(16, 14, 19, 0.5);
+  --tile0: #1E1A23;
+  --tile1: #17141B;
+  --tile2: #241F2A;
+  --metal1: #2A2630;
+  --metal2: #17141B;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
