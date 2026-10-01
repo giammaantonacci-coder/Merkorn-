@@ -1,4 +1,4 @@
-film({ W: 1080, H: 1920, BPM: 120, BEATS: 36 });
+film({ W: 1080, H: 1920, BPM: 120, BEATS: 38 });
 
 // Bozza di prova: la stessa finestra cambia forma per tre aziende diverse.
 // Aziende, targhe, persone e numeri sono inventati.
@@ -48,8 +48,11 @@ const Z = 1.2, VIEW = view(WIN.x + WIN.w / 2, WIN.y + 430, Z);
 
 const K = {};
 function timeline() {
-  K.sc = [-1, B(10), B(19), B(28)];
-  K.act = K.sc.slice(0, 3).map((s, k) => (k === 0 ? B(4) : s + 2 * FILM.P * 2));
+  // il video parte dal blocco viola del finale, che si apre nella finestra: così gira in loop
+  K.open = B(1.5);
+  K.sc = [K.open, B(11), B(20), B(29)];
+  K.act = K.sc.slice(0, 3).map((s) => s + 2.25);
+  K.out = B(36);
   POINTER.splice(0, POINTER.length);
 }
 const POINTER = [];
@@ -85,7 +88,8 @@ function build(stage) {
     <div class="abs mask" style="left:0;top:${ROW.y}px;width:${WIN.w}px;height:${WIN.h - ROW.y}px"><div class="abs" style="left:0;top:${-ROW.y}px;width:${WIN.w}px;height:${WIN.h}px">
       ${SCENES.slice(0, 3).map((s, k) => `<div class="full" data-k="R${k}"></div>`).join("")}
     </div></div>
-    ${SCENES.slice(0, 3).map(layer).join("")}`;
+    ${SCENES.slice(0, 3).map(layer).join("")}
+    <div class="full" data-k="seal" style="background:var(--accent)"></div>`;
 
   stage.innerHTML = `
     ${nebulaHtml("bgBase")}
@@ -112,12 +116,15 @@ function apply(t) {
   applyBg(t, k);
   applyHead(t);
   const close = prog(t, K.sc[3] + 0.35, 0.6, E.inOut);
-  show($.world, close < 1);
-  if (close < 1) {
+  show($.world, t >= K.open && close < 1);
+  if (t >= K.open && close < 1) {
     const v = view(VIEW.cx, VIEW.cy, Z * (1 + 0.02 * loop(t, 2)));
-    const rect = close > 0 ? mixRect(FULL, markInWindow(v), close) : FULL;
-    placeWorld(v, { rect, chrome: 1 - prog(t, K.sc[3] + 0.35, 0.2), desk: 0, hw: 0 });
-    $.winClip.style.background = close > 0.5 ? "var(--accent)" : "";
+    const opening = prog(t, K.open, 0.6, E.inOut);
+    const rect = close > 0 ? mixRect(FULL, markInWindow(v), close) : opening < 1 ? mixRect(markInWindow(v), FULL, opening) : FULL;
+    placeWorld(v, { rect, chrome: Math.min(prog(t, K.open + 0.45, 0.3), 1 - prog(t, K.sc[3] + 0.35, 0.2)), desk: 0, hw: 0 });
+    const seal = t < K.sc[3] ? 1 - prog(t, K.open + 0.1, 0.4, E.inOut) : prog(t, K.sc[3] + 0.45, 0.35, E.out);
+    $.seal.style.opacity = seal.toFixed(3);
+    show($.seal, seal > 0);
     show($.L0, close < 0.5); show($.L1, close < 0.5); show($.L2, close < 0.5);
     applyApp(t, k);
     show($.pointer, false);
@@ -136,7 +143,7 @@ function applyBg(t, k) {
   $.bgWipe.style.clipPath = p >= 1 ? "" : `circle(${(p * 2300).toFixed(1)}px at ${c.x.toFixed(1)}px ${c.y.toFixed(1)}px)`;
 }
 
-const enterAt = (k) => (k === 0 ? -10 : K.sc[k]);
+const enterAt = (k) => (k === 0 ? K.open + 0.25 : K.sc[k]);
 const leaveAt = (k) => (k < 3 ? K.sc[k + 1] - 0.3 : K.sc[3] + 2.1);
 
 function applyHead(t) {
@@ -216,5 +223,5 @@ function markInWindow(v) {
 
 function applyEnd(t) {
   // la finestra è diventata il blocco in cima: gli altri quattro scendono da lì e sotto compare la firma
-  placeLockup(t, K.sc[3] + 0.95);
+  placeLockup(t, K.sc[3] + 0.95, { open: K.open, out: K.out });
 }

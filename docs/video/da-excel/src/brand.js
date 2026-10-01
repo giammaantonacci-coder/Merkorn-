@@ -62,15 +62,30 @@ function layoutLockup(cx, cy, k = 1) {
   Object.assign($.lkClip.style, { left: Math.round(cx - w / 2) + "px", top: LOCK.y + markH + gapV + "px", width: Math.ceil(w + 8) + "px", height: h + "px" });
 }
 
-// t0: il blocco in cima è al suo posto; prima di t0 la chiusura è spenta
-function placeLockup(t, t0) {
-  const on = t >= t0 - 0.35;
-  for (const key of ["lkBlack", "lkGlow", "lkClip"]) show($[key], on);
+// open: il blocco del primo fotogramma comincia ad aprirsi nella finestra (il video parte dalla fine, per chiudere il giro)
+// t0: la finestra è tornata blocco; out: la firma esce e il marchio si richiude nel blocco del primo fotogramma
+function placeLockup(t, t0, { open = -Infinity, out = Infinity } = {}) {
+  const glow = (g) => {
+    const R = 330 * LOCK.k * (0.8 + 0.2 * g), gy = LOCK.y + 1.5 * LOCK.s + 20 * LOCK.k;
+    $.lkGlow.style.background = `radial-gradient(${R.toFixed(0)}px ${(R * 0.92).toFixed(0)}px at ${LOCK.cx}px ${gy.toFixed(0)}px, rgba(110,40,200,${(0.55 * g).toFixed(3)}), rgba(70,20,140,${(0.22 * g).toFixed(3)}) 45%, rgba(0,0,0,0) 100%)`;
+  };
+  const opening = t < open + 0.7;
+  const closing = t >= t0 - 0.35;
+  for (const key of ["lkBlack", "lkGlow"]) show($[key], opening || closing);
+  show($.lkClip, closing);
   MARK.forEach((_, i) => show($["mk" + i], false));
-  if (!on) return;
+  if (opening) {
+    const q = prog(t, open, 0.6, E.inOut);
+    $.lkBlack.style.opacity = (1 - q).toFixed(3);
+    glow(1 - q);
+    if (t < open) placeMark("mk", LOCK.x, LOCK.y, LOCK.s, (i) => (i === 0 ? 1 : 0));
+    return;
+  }
+  if (!closing) return;
   $.lkBlack.style.opacity = prog(t, t0 - 0.35, 0.6, E.inOut).toFixed(3);
-  const g = prog(t, t0, 1.0, E.out), R = 330 * LOCK.k * (0.8 + 0.2 * g), gy = LOCK.y + 1.5 * LOCK.s + 20 * LOCK.k;
-  $.lkGlow.style.background = `radial-gradient(${R.toFixed(0)}px ${(R * 0.92).toFixed(0)}px at ${LOCK.cx}px ${gy.toFixed(0)}px, rgba(110,40,200,${(0.55 * g).toFixed(3)}), rgba(70,20,140,${(0.22 * g).toFixed(3)}) 45%, rgba(0,0,0,0) 100%)`;
-  if (t >= t0) placeMark("mk", LOCK.x, LOCK.y, LOCK.s, (i) => (i === 0 ? 1 : spring(t, t0 + 0.05 + i * 0.07, 0.5, 0.8)));
-  rise($.lkRow, clamp(spring(t, t0 + 0.45, 0.55, 0.88), 0, 1));
+  glow(prog(t, t0, 1.0, E.out));
+  const back = (i) => 1 - prog(t, out + 0.3 + (4 - i) * 0.05, 0.35, E.in);
+  if (t >= t0) placeMark("mk", LOCK.x, LOCK.y, LOCK.s, (i) => (i === 0 ? 1 : Math.min(spring(t, t0 + 0.05 + i * 0.07, 0.5, 0.8), back(i))));
+  if (t < out) rise($.lkRow, clamp(spring(t, t0 + 0.45, 0.55, 0.88), 0, 1));
+  else sink($.lkRow, prog(t, out, 0.3, E.in));
 }
