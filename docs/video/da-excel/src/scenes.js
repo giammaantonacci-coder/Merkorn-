@@ -134,30 +134,15 @@ function build(stage) {
 
   stage.innerHTML = `
     ${nebulaHtml()}
+    ${lockupBackHtml()}
     ${desktopMarkup(app, { name: CLIENT })}
-    <div class="full" data-k="word">
-      ${markHtml("mk")}
-      <div class="abs mask" data-k="wmClip"><div data-k="wm" class="t" style="font-family:var(--display);font-size:92px;font-weight:700;letter-spacing:.32em;line-height:1.25">${BRAND.name}</div></div>
-      <div class="abs mask" data-k="lnClip" style="height:56px"><div data-k="ln" class="t" style="font-size:38px;font-weight:500;color:var(--ink2);line-height:54px">${BRAND.line}</div></div>
-      <div class="abs center" data-k="cta" style="height:66px;border-radius:14px;background:var(--accent);font-size:21px;font-weight:600">${BRAND.cta}</div>
-      <div class="abs mask" data-k="urlClip" style="height:36px"><div data-k="url" class="t" style="font-size:22px;font-weight:500;letter-spacing:.04em;color:var(--ink2);line-height:34px">${BRAND.url}</div></div>
-    </div>`;
+    <div class="full" data-k="word">${lockupHtml()}</div>`;
   collect(stage);
   for (let k = 0; k < KPI.length; k++) $["kpiR" + k] = roller($["kpiV" + k], "font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:42px");
   for (let k = 0; k < CHIPS.length; k++) $["chipW" + k] = measure(CHIPS[k][0] + "  " + CHIPS[k][1], 14, 500) + 36;
 
-  const S = 60, wmW = measure(BRAND.name, 92, 700, "letter-spacing:.32em"), trail = 0.32 * 92;
-  Object.assign(WM, { s: S, x: Math.round((FILM.W - 5 * S) / 2), y: 214 });
-  WM.top = { x: WM.x + 2 * S, y: WM.y, w: S, h: S, r: S * 0.12 };
-  Object.assign($.wmClip.style, { left: Math.round((FILM.W - (wmW - trail)) / 2) + "px", top: "452px", width: Math.ceil(wmW + 6) + "px", height: "118px" });
-  const lnW = measure(BRAND.line, 38, 500);
-  Object.assign($.lnClip.style, { left: Math.round((FILM.W - lnW) / 2) + "px", top: "590px", width: Math.ceil(lnW + 6) + "px" });
-  const ctaW = Math.ceil(measure(BRAND.cta, 21, 600) + 56);
-  Object.assign($.cta.style, { left: Math.round((FILM.W - ctaW) / 2) + "px", top: "690px", width: ctaW + "px" });
-  const urlW = measure(BRAND.url, 22, 500, "letter-spacing:.04em");
-  Object.assign($.urlClip.style, { left: Math.round((FILM.W - urlW) / 2) + "px", top: "786px", width: Math.ceil(urlW + 8) + "px" });
+  layoutLockup(FILM.W / 2, FILM.H / 2, 1.2);
 }
-const WM = {};
 
 function apply(t) {
   placeNebula(t, $.neb);
@@ -190,7 +175,7 @@ function camera(t) {
 }
 
 function markInWindow(v) {
-  const m = WM.top;
+  const m = LOCK.top;
   return { x: (m.x - FILM.W / 2) / v.z + v.cx - WIN.x, y: (m.y - FILM.H / 2) / v.z + v.cy - WIN.y, w: m.w / v.z, h: m.h / v.z, r: m.r / v.z };
 }
 
@@ -339,16 +324,6 @@ function placeRow(t, key, r, i, p, push) {
 }
 
 function applyWord(t) {
-  const on = t >= K.close + 0.3;
-  show($.word, on);
-  if (!on) return;
-  // la finestra è diventata il blocco in cima: gli altri quattro scendono da lì e formano il marchio
-  const order = [0, 1, 2, 3, 4];
-  placeMark("mk", WM.x, WM.y, WM.s, (i) => (i === 0 ? (t >= K.close + 0.6 ? 1 : 0) : spring(t, K.close + 0.6 + order[i] * 0.07, 0.5, 0.8)));
-  rise($.wm, clamp(spring(t, K.word, 0.55, 0.88), 0, 1));
-  rise($.ln, clamp(spring(t, K.line, 0.55, 0.88), 0, 1));
-  const c = clamp(spring(t, K.line + 0.25, 0.45, 0.7), 0, 1.06);
-  show($.cta, t >= K.line + 0.25);
-  setT($.cta, `scale(${c.toFixed(4)})`);
-  rise($.url, clamp(spring(t, K.line + 0.45, 0.55, 0.88), 0, 1));
+  // la finestra è diventata il blocco in cima: gli altri quattro scendono da lì e sotto compare la firma
+  placeLockup(t, K.close + 0.6);
 }

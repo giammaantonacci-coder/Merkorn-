@@ -90,17 +90,12 @@ function build(stage) {
   stage.innerHTML = `
     ${nebulaHtml("bgBase")}
     ${nebulaHtml("bgWipe")}
+    ${lockupBackHtml()}
     ${[0, 1].map((l) => `<div class="abs mask" style="left:${HEAD.x - 8}px;top:${HEAD.y + l * HEAD.lh}px;width:${FILM.W - HEAD.x}px;height:${HEAD.lh + 8}px">
       ${SCENES.map((s, k) => `<span class="abs t" data-k="h${k}_${l}" style="left:8px;top:0;font-family:var(--display);font-size:${HEAD.size}px;font-weight:700;letter-spacing:-.035em;line-height:${HEAD.lh}px;color:${l ? s.accent : "var(--ink)"}">${s.head[l]}</span>`).join("")}</div>`).join("")}
     ${desktopMarkup(app, { name: "" })}
     ${SCENES.slice(0, 3).map((s, k) => `<div class="abs center" data-k="st${k}" style="left:0;top:0;height:84px;padding:0 34px;border-radius:18px;background:rgba(16,14,19,.84);box-shadow:inset 0 0 0 1px var(--hair);font-size:36px;font-weight:600;letter-spacing:-.01em;white-space:nowrap">${s.sticker}</div>`).join("")}
-    <div class="full" data-k="end">
-      ${markHtml("mk")}
-      <div class="abs mask" data-k="wmClip"><div data-k="wm" class="t" style="font-family:var(--display);font-size:84px;font-weight:700;letter-spacing:.32em;line-height:1.25">${BRAND.name}</div></div>
-      <div class="abs mask" data-k="lnClip" style="height:58px"><div data-k="ln" class="t" style="font-size:40px;font-weight:500;color:var(--ink2);line-height:56px">${BRAND.line}</div></div>
-      <div class="abs center" data-k="cta" style="height:76px;border-radius:14px;background:var(--accent);font-size:26px;font-weight:600">${BRAND.cta}</div>
-      <div class="abs mask" data-k="urlClip" style="height:40px"><div data-k="url" class="t" style="font-size:26px;font-weight:500;letter-spacing:.04em;color:var(--ink2);line-height:38px">${BRAND.url}</div></div>
-    </div>`;
+    <div class="full" data-k="end">${lockupHtml()}</div>`;
   collect(stage);
   // le righe vivono nel contenitore con maschera, così entrano ed escono dal bordo della lista
   SCENES.slice(0, 3).forEach((s, k) => s.rows.forEach((_, i) => $["R" + k].appendChild($[`row${k}_${i}`])));
@@ -109,18 +104,8 @@ function build(stage) {
     s.stW = Math.ceil(measure(s.sticker, 36, 600, "letter-spacing:-.01em") + 68);
     s.tabW = measure(s.tabs[0], 17, 700);
   });
-  const S = 70, wmW = measure(BRAND.name, 84, 700, "letter-spacing:.32em"), trail = 0.32 * 84;
-  Object.assign(END, { s: S, x: Math.round((FILM.W - 5 * S) / 2), y: 640 });
-  END.top = { x: END.x + 2 * S, y: END.y, w: S, h: S, r: S * 0.12 };
-  Object.assign($.wmClip.style, { left: Math.round((FILM.W - (wmW - trail)) / 2) + "px", top: "900px", width: Math.ceil(wmW + 6) + "px", height: "108px" });
-  const lnW = measure(BRAND.line, 40, 500);
-  Object.assign($.lnClip.style, { left: Math.round((FILM.W - lnW) / 2) + "px", top: "1030px", width: Math.ceil(lnW + 6) + "px" });
-  const ctaW = Math.ceil(measure(BRAND.cta, 26, 600) + 64);
-  Object.assign($.cta.style, { left: Math.round((FILM.W - ctaW) / 2) + "px", top: "1140px", width: ctaW + "px" });
-  const urlW = measure(BRAND.url, 26, 500, "letter-spacing:.04em");
-  Object.assign($.urlClip.style, { left: Math.round((FILM.W - urlW) / 2) + "px", top: "1250px", width: Math.ceil(urlW + 8) + "px" });
+  layoutLockup(FILM.W / 2, FILM.H / 2, 1);
 }
-const END = {};
 
 function apply(t) {
   const k = scene(t);
@@ -152,7 +137,7 @@ function applyBg(t, k) {
 }
 
 const enterAt = (k) => (k === 0 ? -10 : K.sc[k]);
-const leaveAt = (k) => (k < 3 ? K.sc[k + 1] - 0.3 : Infinity);
+const leaveAt = (k) => (k < 3 ? K.sc[k + 1] - 0.3 : K.sc[3] + 2.1);
 
 function applyHead(t) {
   SCENES.forEach((s, k) => [0, 1].forEach((l) => {
@@ -225,20 +210,11 @@ function applyStickers(t) {
 }
 
 function markInWindow(v) {
-  const m = END.top;
+  const m = LOCK.top;
   return { x: (m.x - FILM.W / 2) / v.z + v.cx - WIN.x, y: (m.y - FILM.H / 2) / v.z + v.cy - WIN.y, w: m.w / v.z, h: m.h / v.z, r: m.r / v.z };
 }
 
 function applyEnd(t) {
-  const on = t >= K.sc[3] + 0.9;
-  show($.end, on);
-  if (!on) return;
-  const a = K.sc[3] + 0.95;
-  placeMark("mk", END.x, END.y, END.s, (i) => (i === 0 ? 1 : spring(t, a + i * 0.07, 0.5, 0.8)));
-  rise($.wm, clamp(spring(t, a + 0.45, 0.55, 0.88), 0, 1));
-  rise($.ln, clamp(spring(t, a + 0.85, 0.55, 0.88), 0, 1));
-  const c = clamp(spring(t, a + 1.15, 0.45, 0.7), 0, 1.06);
-  show($.cta, t >= a + 1.15);
-  setT($.cta, `scale(${c.toFixed(4)})`);
-  rise($.url, clamp(spring(t, a + 1.35, 0.55, 0.88), 0, 1));
+  // la finestra è diventata il blocco in cima: gli altri quattro scendono da lì e sotto compare la firma
+  placeLockup(t, K.sc[3] + 0.95);
 }
