@@ -19,7 +19,7 @@ La schermata delle analitiche di un gestionale Merkorn, raccontata come una vetr
 | 14,2 s | Principio 2, "Il dato che conta in primo piano": affondo sul grafico, un cursore scorre i mesi con i valori, a fine corsa 184.000 € (+10,2% sull'anno prima) |
 | 20,6 s | Arriva un ordine nuovo (#3211, Ferramenta, 2.480 €) |
 | 22,0 s | Sul drop della musica l'ordine vola nella scheda Ordini: 3.210 → 3.211, il fatturato sale, l'ultimo punto della linea si alza, Ferramenta +1 |
-| 24,0 s | Principio 3, "Barre orizzontali per i nomi lunghi": affondo sulle categorie, le barre ricrescono dalla stessa linea, poi "Crescita" le riordina |
+| 24,0 s | Principio 3, "Il confronto si legge da solo": affondo sulle categorie, le barre ricrescono dalla stessa linea, poi "Crescita" le riordina |
 | 30,6 s | Le schede si richiudono nei cinque blocchi del marchio |
 | 32,0 s | "powered by Merkorn" |
 | 36,4 s | La firma esce, il marchio si richiude nel blocco del primo fotogramma |
@@ -48,7 +48,7 @@ python3 $SK/build_single.py docs/video/analitiche/src/index.html docs/video/anal
 ## Fonti e diritti
 
 - Dati del grafico, delle categorie e degli indicatori: quelli delle schermate di esempio del sito merkorn.com (pagina Come lavoriamo, schermata Analitiche). Crescite per categoria e ordine nuovo inventati.
-- I tre principi sono quelli scritti sul sito.
+- I primi due principi sono quelli scritti sul sito; il terzo ("Il confronto si legge da solo") riassume il principio delle barre orizzontali che partono dalla stessa linea.
 - Caratteri DM Sans e Inter dal sito (SIL Open Font License); logo fornito da Merkorn.
 - Musica ed effetti: sintetizzati per il video, originali, nessun credito richiesto.
 - Il cliente "Rossi Forniture" e "Anna Martini" sono inventati.
