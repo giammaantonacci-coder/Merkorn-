@@ -456,7 +456,7 @@ const ORD = [
   ["1054", "Idraulica Costa", "17/09", "Raccordi ottone", "300", "1.290,00", "consegnato", 2, "", "", ""],
 ];
 // la riga che viene digitata nel foglio: [campo, colonna, testo]
-const TYPED = 13, TYPE_SPEED = 0.06;
+const TYPED = 13, TYPE_SPEED = 0.055;
 const TYPE = [["num", 0, "1054"], ["cli", 1, "Idraulica Costa"], ["dat", 2, "17/09"], ["pro", 3, "Raccordi ottone"], ["Qty", 4, "300"], ["imp", 5, "1.290,00"], ["st", 6, "consegnato"]];
 const FORMULA = "=SOMMA(F2:F15)+F17-F3";
 const NEW = ["1055", "Ristorante Da Pino", "18/09", "Teglie inox", "", "1.640,00", "", 0];
@@ -530,21 +530,22 @@ function timeline() {
     open: B(2),
   });
   // qualcuno compila l'ultima riga del foglio, cella per cella, poi riscrive il totale: #RIF!
-  let at = K.open + 0.9;
+  let at = K.open + 1.6;
   K.cells = TYPE.map(([, , text]) => { const c = { at, end: at + text.length * TYPE_SPEED }; at = c.end + 0.2; return c; });
   K.toTotal = at;
   K.formula = at + 0.25;
   K.hit = K.formula + FORMULA.length * 0.04 + 0.2;
   K.err = K.hit;
-  K.wide = K.err + 0.9;
-  K.morph = K.wide + 1.0;
+  // lo zoom out parte con la trasformazione: la camera arretra mentre il foglio diventa il gestionale
+  K.morph = K.err + 1.6;
+  K.wide = K.morph - 0.25;
   K.labels = K.morph + 1.0; K.values = K.labels + 0.25;
   K.point = K.labels + 1.5; K.click = K.point + 0.5;
   K.pMag = K.click + 1.5; K.mag = K.pMag + 0.5; K.stock = K.mag + 1.5;
   K.pFat = K.stock + 1.5; K.fat = K.pFat + 0.5; K.pEmit = K.fat + 1.0; K.emit = K.pEmit + 0.5; K.sdi = K.emit + 1.0;
   // dopo l'ultima operazione: tre secondi di respiro, la camera arretra piano, poi la finestra torna blocco
   K.pull = K.sdi + 0.5; K.close = K.sdi + 3.0;
-  K.out = K.close + 0.6 + 3.4;
+  K.out = K.close + 0.6 + 3.2;
   K.newRow = K.click + 0.15;
   K.enter = { ord: K.labels, mag: K.mag + 0.12, fat: K.fat + 0.12 };
   K.leave = { ord: K.mag, mag: K.fat, fat: Infinity };
@@ -707,11 +708,20 @@ function apply(t) {
   placeLockup(t, K.close + 0.6, { open: K.open, out: K.out });
 }
 
+// centro orizzontale della camera su una colonna del foglio, senza uscire dalla finestra
+const cellX = (c) => clamp((SH.cols[c] + SH.cols[c + 1]) / 2, 400, 800);
+
 function camera(t) {
   return cameraAt(t, [
     { t: 0, ...onWindow(600, 380, 1.42) },
-    { t: K.open + 0.7, ...onWindow(600, 384, 1.45), d: K.wide - K.open - 0.7 },
-    { t: K.wide, ...onWindow(600, 390, 1.24), d: 0.9 },
+    { t: K.open + 0.7, ...onWindow(600, 384, 1.45), d: K.cells[0].at - 0.6 - K.open - 0.7 },
+    // da vicino sulla riga che si scrive: la camera segue il cursore di cella in cella
+    ...K.cells.map((c, i) => ({ t: c.at - (i ? 0.22 : 0.65), ...onWindow(cellX(TYPE[i][1]), 432, 2.45 + 0.025 * i), d: i ? 0.5 : 0.75 })),
+    // poi sul totale, dove compare l'errore, e un poco più vicino
+    { t: K.toTotal - 0.05, ...onWindow(cellX(5), 446, 2.6), d: 0.55 },
+    { t: K.toTotal + 0.5, ...onWindow(cellX(5), 452, 2.75), d: K.wide - K.toTotal - 0.5 },
+    // zoom out lungo, insieme alla trasformazione
+    { t: K.wide, ...onWindow(600, 390, 1.24), d: 1.7 },
     { t: K.labels, ...onWindow(640, 392, 1.3), d: 1.0 },
     { t: K.values + 0.6, ...onWindow(640, 392, 1.31), d: K.point - K.values - 0.6 },
     { t: K.newRow + 0.4, ...onWindow(640, 392, 1.325), d: K.pMag - K.newRow - 0.4 },
