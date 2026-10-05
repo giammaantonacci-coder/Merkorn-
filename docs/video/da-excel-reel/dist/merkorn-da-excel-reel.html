@@ -545,7 +545,7 @@ function timeline() {
   K.formula = at + 0.25;
   K.hit = K.formula + FORMULA.length * 0.04 + 0.2;
   K.err = K.hit;
-  // l'errore scuote l'inquadratura; la camera si allontana, compare "Metti ordine.", poi si apre il gestionale
+  // l'errore scuote l'inquadratura; la camera si allontana, compare "Riduci gli errori.", poi si apre il gestionale
   K.shake = K.hit + 0.05;
   K.away = K.hit + 0.55;
   K.motto = K.away + 0.8;
@@ -683,19 +683,25 @@ function build(stage) {
     ${desktopMarkup(app, { name: CLIENT })}
     <div class="full" data-k="dimMotto" style="background:#030205"></div>
     <div class="full" data-k="motto">
-      <div class="abs mask" data-k="mottoA" style="height:240px"><span class="abs t" data-k="mottoAT" style="left:0;top:0;font-family:var(--display);font-size:190px;font-weight:700;letter-spacing:-.045em;line-height:230px">Metti</span></div>
-      <div class="abs mask" data-k="mottoB" style="height:240px"><span class="abs t" data-k="mottoBT" style="left:0;top:0;font-family:var(--display);font-size:190px;font-weight:700;letter-spacing:-.045em;line-height:230px;color:#B57BFF">ordine.</span></div>
+      <div class="abs mask" data-k="mottoA" style="height:240px"><span class="abs t" data-k="mottoAT" style="left:0;top:0;font-family:var(--display);font-size:190px;font-weight:700;letter-spacing:-.045em;line-height:230px">Riduci</span></div>
+      <div class="abs mask" data-k="mottoB" style="height:240px"><span class="abs t" data-k="mottoBT" style="left:0;top:0;font-family:var(--display);font-size:190px;font-weight:700;letter-spacing:-.045em;line-height:230px;color:#B57BFF">gli errori.</span></div>
     </div>
     <div class="full" data-k="word">${lockupHtml()}</div>`;
   collect(stage);
-  const gap = 46, wA = measure("Metti", 190, 700, "font-family:var(--display);letter-spacing:-.045em"), wB = measure("ordine.", 190, 700, "font-family:var(--display);letter-spacing:-.045em");
+  // "Riduci gli errori.": il carattere si riduce quanto serve per stare nella larghezza (una riga, due nel reel)
+  const MOTTO = ["Riduci", "gli errori."], css = "font-family:var(--display);letter-spacing:-.045em";
+  const w0 = MOTTO.map((w) => measure(w, 190, 700, css)), gap0 = 46;
+  const size = Math.floor(190 * Math.min(1, VERT ? (FILM.W - 120) / Math.max(...w0) : (FILM.W - 260) / (w0[0] + gap0 + w0[1])));
+  const k = size / 190, lh = Math.round(230 * k), [wA, wB] = w0.map((w) => w * k), gap = gap0 * k;
+  for (const key of ["mottoAT", "mottoBT"]) Object.assign($[key].style, { fontSize: size + "px", lineHeight: lh + "px" });
+  for (const key of ["mottoA", "mottoB"]) $[key].style.height = lh + 10 + "px";
   if (VERT) {
-    // nel reel "Metti" e "ordine." vanno su due righe, centrate
-    const y0 = Math.round(FILM.H / 2 - 230);
+    // nel reel le due parti vanno su due righe, centrate
+    const y0 = Math.round(FILM.H / 2 - lh);
     Object.assign($.mottoA.style, { left: Math.round((FILM.W - wA) / 2) + "px", top: y0 + "px", width: Math.ceil(wA + 12) + "px" });
-    Object.assign($.mottoB.style, { left: Math.round((FILM.W - wB) / 2) + "px", top: y0 + 210 + "px", width: Math.ceil(wB + 12) + "px" });
+    Object.assign($.mottoB.style, { left: Math.round((FILM.W - wB) / 2) + "px", top: y0 + Math.round(lh * 0.92) + "px", width: Math.ceil(wB + 12) + "px" });
   } else {
-    const x0 = Math.round((FILM.W - (wA + gap + wB)) / 2), y0 = Math.round(FILM.H / 2 - 122);
+    const x0 = Math.round((FILM.W - (wA + gap + wB)) / 2), y0 = Math.round(FILM.H / 2 - lh / 2 - 7);
     Object.assign($.mottoA.style, { left: x0 + "px", top: y0 + "px", width: Math.ceil(wA + 12) + "px" });
     Object.assign($.mottoB.style, { left: Math.round(x0 + wA + gap) + "px", top: y0 + "px", width: Math.ceil(wB + 12) + "px" });
   }
