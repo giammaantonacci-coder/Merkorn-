@@ -1,4 +1,6 @@
 film({ W: 1920, H: 1080, BPM: 120, BEATS: 76 });
+// versione reel 9:16 (reel.js cambia il formato): stessa scena, la camera inquadra più largo e lo sfondo si allarga sopra e sotto
+const VERT = FILM.H > FILM.W, REEL_Z = 0.65;
 
 // Merkorn, "Analitiche": la schermata delle analitiche di un gestionale Merkorn, raccontata come una vetrina.
 // I cinque blocchi del marchio cadono e diventano le colonne del fatturato; le colonne diventano una linea;
@@ -102,6 +104,10 @@ const CAPTIONS = [
   { key: "c3", eyebrow: "Principio 3", a: "Il confronto", b: "si legge da solo.", x: 110, y: 360, at: "cap3", out: "cap3Out" },
 ];
 const CAP = { size: 60, lh: 74 };
+if (FILM.H > FILM.W) Object.assign(CAP, { size: 76, lh: 92 });
+// nel reel i titoli dei principi stanno sopra la finestra, la grande tipografia è più piccola
+if (VERT) CAPTIONS.forEach((c) => { c.x = 64; c.y = 470; });
+const TYPE = VERT ? { x: 56, y: 700, gap: 150, size: 122, lh: 150 } : { x: 142, y: 300, gap: 170, size: 156, lh: 190 };
 
 function build(stage) {
   const tiles = [0, 1, 2, 3].map((k) => `
@@ -198,8 +204,8 @@ function build(stage) {
     ${lockupBackHtml()}
     ${desktopMarkup(app, { name: CLIENT })}
     <div class="full" data-k="type">
-      <div class="abs mask" style="left:142px;top:300px;width:1700px;height:190px"><span class="abs t" data-k="typeA" style="left:8px;top:0;font-family:var(--display);font-size:156px;font-weight:700;letter-spacing:-.045em;line-height:190px">Ogni numero</span></div>
-      <div class="abs mask" style="left:142px;top:470px;width:1700px;height:200px"><span class="abs t" data-k="typeB" style="left:8px;top:0;font-family:var(--display);font-size:156px;font-weight:700;letter-spacing:-.045em;line-height:190px;color:#B57BFF">al suo posto.</span></div>
+      <div class="abs mask" style="left:${TYPE.x}px;top:${TYPE.y}px;width:1700px;height:${TYPE.lh}px"><span class="abs t" data-k="typeA" style="left:8px;top:0;font-family:var(--display);font-size:${TYPE.size}px;font-weight:700;letter-spacing:-.045em;line-height:${TYPE.lh}px">Ogni numero</span></div>
+      <div class="abs mask" style="left:${TYPE.x}px;top:${TYPE.y + TYPE.gap}px;width:1700px;height:${TYPE.lh + 10}px"><span class="abs t" data-k="typeB" style="left:8px;top:0;font-family:var(--display);font-size:${TYPE.size}px;font-weight:700;letter-spacing:-.045em;line-height:${TYPE.lh}px;color:#B57BFF">al suo posto.</span></div>
     </div>
     ${CAPTIONS.map((c) => `
       <div class="abs mask" style="left:${c.x}px;top:${c.y}px;width:780px;height:30px"><span class="abs t" data-k="${c.key}E" style="left:0;top:0;font-size:18px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);line-height:30px">${c.eyebrow}</span></div>
@@ -216,7 +222,7 @@ function build(stage) {
     x += w + 8;
   });
   timeline();
-  layoutLockup(FILM.W / 2, FILM.H / 2, 1.2);
+  layoutLockup(FILM.W / 2, FILM.H / 2, VERT ? 1 : 1.2);
 }
 
 // ---- un fotogramma ----
@@ -249,20 +255,28 @@ function apply(t) {
 }
 
 function camera(t) {
+  const v = cameraLand(t);
+  return VERT ? view(v.cx, v.cy, v.z * REEL_Z) : v;
+}
+
+// nel reel la finestra resta al centro, sotto i titoli dei principi
+const SIDE = (x, z) => (VERT ? onWindow(600, 96, 1.15 * z / 0.82) : onWindow(x, 392, z));
+
+function cameraLand(t) {
   const whole = onWindow(600, 392, 1.2), plot = onWindow(PL.x + PL.w / 2 - 6, PL.y + PL.h / 2 - 8, 2.45);
   return cameraAt(t, [
     { t: 0, ...plot },
     { t: K.drop, ...onWindow(PL.x + PL.w / 2 - 4, PL.y + PL.h / 2 - 6, 2.52), d: K.pull - K.drop },
     { t: K.pull, ...whole, d: 2.0 },
     { t: K.pull + 2.0, ...onWindow(600, 392, 1.225), d: K.p1 - K.pull - 2.0 },
-    { t: K.p1, ...onWindow(112, 392, 0.82), d: 1.0 },
-    { t: K.p1 + 1.0, ...onWindow(116, 392, 0.835), d: K.p2 - K.p1 - 1.0 },
-    { t: K.p2, ...onWindow(1088, 392, 0.82), d: 1.0 },
+    { t: K.p1, ...SIDE(112, 0.82), d: 1.0 },
+    { t: K.p1 + 1.0, ...SIDE(116, 0.835), d: K.p2 - K.p1 - 1.0 },
+    { t: K.p2, ...SIDE(1088, 0.82), d: 1.0 },
     { t: K.dive, ...onWindow(LINE.x + LINE.w / 2, LINE.y + LINE.h / 2 - 4, 1.9), d: 1.0 },
     { t: K.dive + 1.0, ...onWindow(LINE.x + LINE.w / 2 + 6, LINE.y + LINE.h / 2 - 4, 1.96), d: K.back - K.dive - 1.0 },
     { t: K.back, ...whole, d: 0.95 },
     { t: K.back + 0.95, ...onWindow(600, 392, 1.23), d: K.p3 - K.back - 0.95 },
-    { t: K.p3, ...onWindow(112, 392, 0.82), d: 1.0 },
+    { t: K.p3, ...SIDE(112, 0.82), d: 1.0 },
     { t: K.dive3, ...onWindow(CAT.x + CAT.w / 2, CAT.y + CAT.h / 2 - 4, 1.9), d: 1.0 },
     { t: K.dive3 + 1.0, ...onWindow(CAT.x + CAT.w / 2 - 6, CAT.y + CAT.h / 2 - 4, 1.95), d: K.back2 - K.dive3 - 1.0 },
     { t: K.back2, ...whole, d: 0.95 },

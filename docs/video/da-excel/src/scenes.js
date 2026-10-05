@@ -1,4 +1,6 @@
 film({ W: 1920, H: 1080, BPM: 120, BEATS: 62 });
+// versione reel 9:16 (reel.js cambia il formato): stessa scena, la camera inquadra più largo e lo sfondo si allarga sopra e sotto
+const VERT = FILM.H > FILM.W, REEL_Z = 0.65;
 
 // Merkorn, "Da Excel al gestionale": un foglio di calcolo caotico diventa un gestionale su misura,
 // poi l'ordine appena inserito scala il magazzino e diventa una fattura elettronica.
@@ -248,9 +250,16 @@ function build(stage) {
     <div class="full" data-k="word">${lockupHtml()}</div>`;
   collect(stage);
   const gap = 46, wA = measure("Metti", 190, 700, "font-family:var(--display);letter-spacing:-.045em"), wB = measure("ordine.", 190, 700, "font-family:var(--display);letter-spacing:-.045em");
-  const x0 = Math.round((FILM.W - (wA + gap + wB)) / 2), y0 = Math.round(FILM.H / 2 - 122);
-  Object.assign($.mottoA.style, { left: x0 + "px", top: y0 + "px", width: Math.ceil(wA + 12) + "px" });
-  Object.assign($.mottoB.style, { left: Math.round(x0 + wA + gap) + "px", top: y0 + "px", width: Math.ceil(wB + 12) + "px" });
+  if (VERT) {
+    // nel reel "Metti" e "ordine." vanno su due righe, centrate
+    const y0 = Math.round(FILM.H / 2 - 230);
+    Object.assign($.mottoA.style, { left: Math.round((FILM.W - wA) / 2) + "px", top: y0 + "px", width: Math.ceil(wA + 12) + "px" });
+    Object.assign($.mottoB.style, { left: Math.round((FILM.W - wB) / 2) + "px", top: y0 + 210 + "px", width: Math.ceil(wB + 12) + "px" });
+  } else {
+    const x0 = Math.round((FILM.W - (wA + gap + wB)) / 2), y0 = Math.round(FILM.H / 2 - 122);
+    Object.assign($.mottoA.style, { left: x0 + "px", top: y0 + "px", width: Math.ceil(wA + 12) + "px" });
+    Object.assign($.mottoB.style, { left: Math.round(x0 + wA + gap) + "px", top: y0 + "px", width: Math.ceil(wB + 12) + "px" });
+  }
   $.titleR = roller($.title, "font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:48px");
   $.btnR = roller($.btnHost, `width:${BTN.w}px;text-align:center;font-size:15px;font-weight:600;line-height:${BTN.h}px;color:var(--ink)`);
   for (let k = 0; k < 3; k++) {
@@ -263,7 +272,7 @@ function build(stage) {
     let x = GT.x;
     SCREENS[s].chips.forEach(([l, a, b], k) => { CHIPX.push([s, k, x]); x += Math.round(measure(`${l}  ${a.length > b.length ? a : b}`, 14, 600) + 36) + 10; });
   }
-  layoutLockup(FILM.W / 2, FILM.H / 2, 1.2);
+  layoutLockup(FILM.W / 2, FILM.H / 2, VERT ? 1 : 1.2);
 }
 const CHIPX = [];
 
@@ -314,7 +323,8 @@ function shake(t, v) {
 }
 
 function camera(t) {
-  return shake(t, cameraRaw(t));
+  const v = shake(t, cameraRaw(t));
+  return VERT ? view(v.cx, v.cy, v.z * REEL_Z) : v;
 }
 
 function cameraRaw(t) {
