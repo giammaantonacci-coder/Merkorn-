@@ -10,22 +10,24 @@ Un foglio di calcolo caotico si ripulisce e diventa un gestionale su misura. L'o
 |---|---|
 | 0,0 s | Fondo nero, alone viola, il blocco in cima al marchio |
 | 0,5 s | Il blocco si apre nella finestra: un foglio `ORDINI_def_v3 (copia) (2).xlsx`, con note "CHIAMARE!!", "URGENTE" e righe colorate a mano |
-| 1,4 s | Qualcuno compila l'ultima riga cella per cella: 1054, Idraulica Costa, 17/09, Raccordi ottone, 300, 1.290,00, consegnato. Il cursore di Excel salta di cella in cella, la barra della formula ripete quello che si scrive |
-| 6,4 s | Il cursore va sul totale e si scrive `=SOMMA(F2:F15)+F17-F3` |
-| 7,7 s | Invio: compare `#RIF!`, che lampeggia due volte |
-| 8,6 s | La camera si allarga su tutta la finestra |
-| 9,6 s | Il foglio si ripulisce e diventa scuro; le righe diventano la tabella degli ordini, gli stati scritti a mano etichette, le schede in basso il menu, il totale tre riquadri |
-| 10,6 s | Compaiono titolo "Ordini", filtri, riepiloghi e intestazioni |
-| 12,6 s | Clic su "+ Nuovo ordine": entra l'ordine #1055 di Ristorante Da Pino, i contatori salgono |
-| 14,6 s | Clic su "Magazzino" |
-| 16,1 s | Le teglie inox scendono da 30 a 18, sotto la scorta minima: "Sotto scorta" |
-| 18,1 s | Clic su "Fatture" |
-| 19,6 s | Clic su "Emetti fattura": diventa "Inviata allo SdI" |
-| 20,6 s | La fattura risulta "Consegnata"; i riepiloghi si aggiornano |
-| 21,1 s | Il puntatore si allontana e svanisce; la camera arretra lentamente, in un unico movimento |
-| 23,6 s | La finestra si chiude nel blocco viola, il fondo diventa nero |
-| 24,2 s | Gli altri quattro blocchi scendono e formano il marchio; sotto "powered by Merkorn" |
-| 27,6 s | La firma esce, il marchio si richiude nel blocco del primo fotogramma |
+| 1,4 s | La camera si avvicina molto all'ultima riga |
+| 2,1 s | Qualcuno la compila cella per cella: 1054, Idraulica Costa, 17/09, Raccordi ottone, 300, 1.290,00, consegnato. La camera segue il cursore di cella in cella |
+| 6,9 s | Il cursore va sul totale e si scrive `=SOMMA(F2:F15)+F17-F3`; la camera si avvicina ancora |
+| 8,1 s | Invio: compare `#RIF!`, che lampeggia due volte |
+| 9,5 s | Zoom out lungo, insieme alla trasformazione: il foglio si ripulisce e diventa scuro; le righe diventano la tabella degli ordini, gli stati scritti a mano etichette, le schede in basso il menu, il totale tre riquadri |
+| 10,7 s | Compaiono titolo "Ordini", filtri, riepiloghi e intestazioni |
+| 12,7 s | Clic su "+ Nuovo ordine": entra l'ordine #1055 di Ristorante Da Pino, i contatori salgono |
+| 14,7 s | Clic su "Magazzino" |
+| 16,2 s | Le teglie inox scendono da 30 a 18, sotto la scorta minima: "Sotto scorta" |
+| 18,2 s | Clic su "Fatture" |
+| 19,7 s | Clic su "Emetti fattura": diventa "Inviata allo SdI" |
+| 20,7 s | La fattura risulta "Consegnata"; i riepiloghi si aggiornano |
+| 21,2 s | Il puntatore si allontana e svanisce; la camera arretra lentamente, in un unico movimento |
+| 23,7 s | La finestra si chiude nel blocco viola, il fondo diventa nero |
+| 24,3 s | Gli altri quattro blocchi scendono e formano il marchio; sotto "powered by Merkorn" |
+| 27,5 s | La firma esce, il marchio si richiude nel blocco del primo fotogramma |
+
+I tempi esatti sono in `timeline()` dentro `src/scenes.js`.
 
 ## Stile
 
