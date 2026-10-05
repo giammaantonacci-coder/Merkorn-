@@ -5,7 +5,7 @@ Versione verticale per i reel Instagram, 1080 × 1920, 60 fps, della stessa dura
 È lo stesso video: la pagina `src/index.html` carica il codice di `../da-excel/src` e `src/reel.js` cambia solo il formato. In `scenes.js` la costante `VERT`:
 
 - allarga l'inquadratura (lo zoom della camera per 0,65), così la finestra sta tutta in larghezza e lo sfondo viola si estende sopra e sotto;
-- mette "Metti ordine." su due righe, centrate;
+- mette "Riduci gli errori." su due righe, centrate;
 - usa la chiusura "powered by Merkorn" nelle misure delle storie verticali.
 
 Una modifica al video orizzontale vale anche per il reel: basta rigenerarlo.

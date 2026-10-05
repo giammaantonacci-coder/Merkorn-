@@ -15,7 +15,7 @@ Un foglio di calcolo caotico si ripulisce e diventa un gestionale su misura. L'o
 | 6,4 s | Il cursore va sul totale e si scrive `=SOMMA(F2:F15)+F17-F3`; la camera si avvicina ancora |
 | 8,1 s | Invio: compare `#RIF!`, l'inquadratura trema per mezzo secondo |
 | 8,6 s | Zoom out: il foglio diventa piccolo al centro e si scurisce |
-| 9,4 s | Grande scritta: "Metti ordine." |
+| 9,4 s | Grande scritta: "Riduci gli errori." |
 | 11,4 s | Si apre il gestionale: la scritta esce, la camera torna avanti mentre il foglio si ripulisce e diventa la schermata Ordini |
 | 12,4 s | Compaiono titolo "Ordini", filtri, riepiloghi e intestazioni |
 | 14,4 s | Clic su "+ Nuovo ordine": entra l'ordine #1055 di Ristorante Da Pino, i contatori salgono |
