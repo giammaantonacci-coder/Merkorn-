@@ -430,7 +430,7 @@ function placeLockup(t, t0, { open = -Infinity, out = Infinity } = {}) {
 
 </script>
 <script>
-film({ W: 1920, H: 1080, BPM: 120, BEATS: 58 });
+film({ W: 1920, H: 1080, BPM: 120, BEATS: 62 });
 
 // Merkorn, "Da Excel al gestionale": un foglio di calcolo caotico diventa un gestionale su misura,
 // poi l'ordine appena inserito scala il magazzino e diventa una fattura elettronica.
@@ -536,9 +536,13 @@ function timeline() {
   K.formula = at + 0.25;
   K.hit = K.formula + FORMULA.length * 0.04 + 0.2;
   K.err = K.hit;
-  // lo zoom out parte con la trasformazione: la camera arretra mentre il foglio diventa il gestionale
-  K.morph = K.err + 1.6;
-  K.wide = K.morph - 0.25;
+  // l'errore scuote l'inquadratura; la camera si allontana, compare "Metti ordine.", poi si apre il gestionale
+  K.shake = K.hit + 0.05;
+  K.away = K.hit + 0.55;
+  K.motto = K.away + 0.8;
+  K.mottoOut = K.motto + 1.6;
+  K.morph = K.mottoOut + 0.35;
+  K.wide = K.morph - 0.1;
   K.labels = K.morph + 1.0; K.values = K.labels + 0.25;
   K.point = K.labels + 1.5; K.click = K.point + 0.5;
   K.pMag = K.click + 1.5; K.mag = K.pMag + 0.5; K.stock = K.mag + 1.5;
@@ -668,8 +672,17 @@ function build(stage) {
     ${nebulaHtml()}
     ${lockupBackHtml()}
     ${desktopMarkup(app, { name: CLIENT })}
+    <div class="full" data-k="dimMotto" style="background:#030205"></div>
+    <div class="full" data-k="motto">
+      <div class="abs mask" data-k="mottoA" style="height:240px"><span class="abs t" data-k="mottoAT" style="left:0;top:0;font-family:var(--display);font-size:190px;font-weight:700;letter-spacing:-.045em;line-height:230px">Metti</span></div>
+      <div class="abs mask" data-k="mottoB" style="height:240px"><span class="abs t" data-k="mottoBT" style="left:0;top:0;font-family:var(--display);font-size:190px;font-weight:700;letter-spacing:-.045em;line-height:230px;color:#B57BFF">ordine.</span></div>
+    </div>
     <div class="full" data-k="word">${lockupHtml()}</div>`;
   collect(stage);
+  const gap = 46, wA = measure("Metti", 190, 700, "font-family:var(--display);letter-spacing:-.045em"), wB = measure("ordine.", 190, 700, "font-family:var(--display);letter-spacing:-.045em");
+  const x0 = Math.round((FILM.W - (wA + gap + wB)) / 2), y0 = Math.round(FILM.H / 2 - 122);
+  Object.assign($.mottoA.style, { left: x0 + "px", top: y0 + "px", width: Math.ceil(wA + 12) + "px" });
+  Object.assign($.mottoB.style, { left: Math.round(x0 + wA + gap) + "px", top: y0 + "px", width: Math.ceil(wB + 12) + "px" });
   $.titleR = roller($.title, "font-family:var(--display);font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:48px");
   $.btnR = roller($.btnHost, `width:${BTN.w}px;text-align:center;font-size:15px;font-weight:600;line-height:${BTN.h}px;color:var(--ink)`);
   for (let k = 0; k < 3; k++) {
@@ -686,7 +699,19 @@ function build(stage) {
 }
 const CHIPX = [];
 
+function applyMotto(t) {
+  const on = t >= K.motto - 0.4 && t < K.mottoOut + 0.6;
+  show($.dimMotto, on); show($.motto, on);
+  if (!on) return;
+  $.dimMotto.style.opacity = (0.62 * Math.min(prog(t, K.motto - 0.4, 0.5), 1 - prog(t, K.mottoOut + 0.05, 0.45))).toFixed(3);
+  [["mottoAT", 0], ["mottoBT", 0.12]].forEach(([k, d], n) => {
+    const out = prog(t, K.mottoOut + (1 - n) * 0.06, 0.3, E.in);
+    if (out > 0) sink($[k], out); else rise($[k], clamp(spring(t, K.motto + d, 0.5, 0.86), 0, 1));
+  });
+}
+
 function apply(t) {
+  applyMotto(t);
   placeNebula(t, $.neb);
   const v = camera(t);
   $.appBg.style.background = `color-mix(in srgb, var(--winBg) ${(pc(t) * 100).toFixed(1)}%, #FFFFFF)`;
@@ -711,7 +736,20 @@ function apply(t) {
 // centro orizzontale della camera su una colonna del foglio, senza uscire dalla finestra
 const cellX = (c) => clamp((SH.cols[c] + SH.cols[c + 1]) / 2, 400, 800);
 
+// la scossa dell'errore: pochi pixel, si smorza in mezzo secondo
+function shake(t, v) {
+  const d = t - K.shake;
+  if (d < 0 || d > 0.7) return v;
+  const s = Math.exp(-d / 0.16);
+  const dx = 18 * s * Math.sin(2 * Math.PI * 21 * d), dy = 11 * s * Math.sin(2 * Math.PI * 29 * d + 1.1);
+  return view(v.cx - dx / v.z, v.cy - dy / v.z, v.z);
+}
+
 function camera(t) {
+  return shake(t, cameraRaw(t));
+}
+
+function cameraRaw(t) {
   return cameraAt(t, [
     { t: 0, ...onWindow(600, 380, 1.42) },
     { t: K.open + 0.7, ...onWindow(600, 384, 1.45), d: K.cells[0].at - 0.6 - K.open - 0.7 },
@@ -719,8 +757,11 @@ function camera(t) {
     ...K.cells.map((c, i) => ({ t: c.at - (i ? 0.22 : 0.65), ...onWindow(cellX(TYPE[i][1]), 432, 2.45 + 0.025 * i), d: i ? 0.5 : 0.75 })),
     // poi sul totale, dove compare l'errore, e un poco più vicino
     { t: K.toTotal - 0.05, ...onWindow(cellX(5), 446, 2.6), d: 0.55 },
-    { t: K.toTotal + 0.5, ...onWindow(cellX(5), 452, 2.75), d: K.wide - K.toTotal - 0.5 },
-    // zoom out lungo, insieme alla trasformazione
+    { t: K.toTotal + 0.5, ...onWindow(cellX(5), 452, 2.75), d: K.away - K.toTotal - 0.5 },
+    // zoom out: il foglio diventa piccolo al centro, dietro la scritta
+    { t: K.away, ...onWindow(600, 390, 0.5), d: 1.2 },
+    { t: K.away + 1.2, ...onWindow(600, 390, 0.47), d: K.wide - K.away - 1.2 },
+    // si apre il gestionale: la camera torna avanti mentre il foglio si trasforma
     { t: K.wide, ...onWindow(600, 390, 1.24), d: 1.7 },
     { t: K.labels, ...onWindow(640, 392, 1.3), d: 1.0 },
     { t: K.values + 0.6, ...onWindow(640, 392, 1.31), d: K.point - K.values - 0.6 },
