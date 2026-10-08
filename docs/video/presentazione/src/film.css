@@ -1,0 +1,52 @@
+:root {
+  /* Merkorn, brand identity 2026 (dal sito) */
+  --scene: #08070B;
+  --bg: #08070B;
+  --ink: #F2EFEA;
+  --ink2: #A7A2AE;
+  --ink3: #8C8794;
+  --hair: rgba(242, 239, 234, 0.14);
+  --accent: #9747FF;
+  --accentSoft: rgba(151, 71, 255, 0.18);
+  --field: #6D28D9;
+  --winBg: #100E13;
+  --side: #0D0B10;
+  --surface: #17141B;
+  --lift2: #1E1A23;
+  --shade: #000000;
+  --edge: rgba(242, 239, 234, 0.14);
+  --display: "DM Sans", "Inter", sans-serif;
+  --wall1: #17141B;
+  --wall2: #08070B;
+  --menuBg: rgba(16, 14, 19, 0.6);
+  --menuInk: #F2EFEA;
+  --dockBg: rgba(16, 14, 19, 0.5);
+  --tile0: #1E1A23;
+  --tile1: #17141B;
+  --tile2: #241F2A;
+  --metal1: #2A2630;
+  --metal2: #17141B;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Inter", sans-serif;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+}
+
+#stage { position: relative; overflow: hidden; background: var(--bg); contain: strict; }
+
+.cam { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.full { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.abs { position: absolute; }
+.row { display: flex; align-items: center; }
+.center { display: flex; align-items: center; justify-content: center; }
+.mask { overflow: hidden; }
+.t { display: inline-block; white-space: nowrap; line-height: 1.3; vertical-align: top; }
+i { display: block; font-style: normal; }
