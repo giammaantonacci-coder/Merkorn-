@@ -331,11 +331,11 @@ function timeline() {
   K.s1 = 0.85; K.lines = [1.6, 2.3, 3.0]; K.bandsOut = 4.55;
   // 2. ordini, magazzino, produzione e fatture si scontrano: un unico sistema (sul drop della musica)
   K.s2 = 5.0; K.hit = 6.0; K.s2out = 7.7;
-  // 3. molti gestionali vi chiedono di adattarvi; noi facciamo il contrario
+  // 3. non siete voi a dovervi adattare; noi facciamo il contrario: il gestionale segue i vostri processi
   K.s3 = 8.0; K.squeeze = 8.95; K.wipe = 10.0; K.swap = 10.24; K.flip = 10.45; K.s3bOut = 11.3; K.s3c = 11.55; K.grow = 11.85; K.s3out = 12.65;
   // 4. su misura: la parola si allarga fino alla misura del righello
   K.s4 = 13.0; K.ruler = 13.45; K.fit = 14.0; K.pmi = 14.55; K.s4out = 15.7;
-  // 5. perché Merkorn, poi quattro motivi (sul secondo drop)
+  // 5. perché Merkorn, poi i quattro punti di forza (sul secondo drop): processi, UX, interfaccia, formazione
   K.s5 = 16.0; K.dive = 17.45; K.r = [18.0, 20.0, 22.0, 24.0];
   // 6. il primo incontro, il sito, poi la firma
   K.cta = 26.0; K.site = 27.6; K.close = 29.0;
@@ -385,13 +385,13 @@ const away = (t, t0, d = 0.28) => prog(t, t0, d, E.in);
 const div = (k, css) => { ALL.push(k); return `<div class="abs" data-k="${k}" style="left:0;top:0;${css}"></div>`; };
 
 const BAND_A = "ORDINI · MAGAZZINO · PRODUZIONE · FATTURE · CLIENTI · ";
-const BAND_B = "EXCEL · EMAIL · FOGLI · CARTA · TELEFONATE · ";
+const BAND_B = "EXCEL · EMAIL · FOGLI · PROGRAMMI · PASSAGGI A MANO · ";
 const BAND = { w: 2800, h: 172, size: 106 };
 const REASONS = [
-  ["01", "Partiamo da", "come lavorate.", "Prima l'analisi, poi il codice."],
-  ["02", "Moduli", "collaudati.", "Meno tempi, meno costi."],
-  ["03", "Dati inseriti", "una volta sola.", "Collegato alla fatturazione elettronica."],
-  ["04", "Lo stesso team,", "anche dopo.", "Assistenza ed evoluzione del software."],
+  ["01", "Su misura", "dei processi.", "Partiamo da come lavorate."],
+  ["02", "UX", "curata.", "Prima l'esperienza, poi il codice."],
+  ["03", "Interfaccia", "intuitiva.", "Una schermata, un compito."],
+  ["04", "Poca", "formazione.", "Chi lo usa sa subito cosa fare."],
 ];
 const RULER = { y: 1072, h: 46, ticks: 20 };
 
@@ -413,12 +413,12 @@ function build(stage) {
     word("u0", "tutto in", 70, { color: INK2, weight: 600, track: -0.02 }),
     word("u1", "UN UNICO", 170, { letters: true }), word("u2", "SISTEMA.", 200, { color: VIO, letters: true }),
     // 3
-    word("a0", "Molti gestionali", 100), word("a1", "vi chiedono di", 80, { color: INK2, weight: 600, track: -0.02 }),
-    div("box", `border:7px solid ${INK}`), word("a2", "ADATTARVI.", 140),
+    word("a0", "Non siete voi", 100), word("a1", "a dovervi", 80, { color: INK2, weight: 600, track: -0.02 }),
+    div("box", `border:7px solid ${INK}`), word("a2", "ADATTARE.", 140),
     div("slab", `width:1500px;height:2900px;background:${VIO}`),
     word("b0", "Noi facciamo", 112), word("b1", "il contrario.", 160, { color: VIO }),
-    word("c0", "Il software", 108), word("c1", "si adatta", 108),
-    div("box2", `border:7px solid ${VIO}`), word("c2", "a voi.", 180, { color: VIO }),
+    word("c0", "Il gestionale", 108), word("c1", "segue i vostri", 108),
+    div("box2", `border:7px solid ${VIO}`), word("c2", "processi.", 170, { color: VIO }),
     // 4
     word("m0", "Software gestionale", 72, { color: INK2, weight: 600, track: -0.02, letters: true }),
     word("m1", "SU MISURA", 190, { maxW: 920 }),
@@ -434,7 +434,7 @@ function build(stage) {
       word(`rc${i}`, c, 50, { color: INK2, weight: 500, track: -0.01 }),
     ]),
     div("scan", `width:8px;height:400px;border-radius:4px;background:${VIO};box-shadow:0 0 30px 6px rgba(151,71,255,.7)`),
-    word("g0", "una volta sola.", 150, { color: VIO }), word("g1", "una volta sola.", 150, { color: INK }),
+    word("g0", REASONS[2][2], 150, { color: VIO }), word("g1", REASONS[2][2], 150, { color: INK }),
     // 6
     `<div class="full" data-k="ctaBg" style="background:${VIO}">${[
       word("k0", "Il primo incontro", 100, { color: BLK }),
@@ -537,7 +537,7 @@ function applyMerge(t) {
   put("u0", MID.x, 880 - o * 280 + (1 - e) * 40, { o: clamp(e * 2) * (1 - o) });
 }
 
-// ---- 3: adattarvi (schiacciato), il contrario (si ribalta), il software si adatta a voi (la cornice cresce) ----
+// ---- 3: adattare (schiacciato), il contrario (si ribalta), il gestionale segue i vostri processi (la cornice cresce) ----
 function applyAdapt(t) {
   if (t < K.s3 || t >= K.s4) return;
   if (t < K.swap) {
