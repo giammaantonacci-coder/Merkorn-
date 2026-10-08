@@ -2,7 +2,7 @@
 
 Reel verticale 1080 × 1920, 60 fps, 34 s, con musica ed effetti sonori. È fatto per stare in evidenza sul profilo Instagram. Gira in loop: il primo e l'ultimo fotogramma sono lo stesso blocco viola.
 
-Solo parole, in nero, bianco e viola. Tutti i testi vengono dal sito merkorn.com.
+Solo parole, in nero, bianco e viola. Racconta perché scegliere Merkorn attraverso i suoi punti di forza: il gestionale si adatta ai processi dell'azienda, la UX è curata, l'interfaccia è intuitiva e serve poca formazione.
 
 ## Scaletta
 
@@ -10,19 +10,19 @@ Solo parole, in nero, bianco e viola. Tutti i testi vengono dal sito merkorn.com
 |---|---|
 | 0,0 s | Fondo nero, alone viola, il blocco in cima al marchio |
 | 0,5 s | Il blocco esplode a tutto schermo |
-| 0,9 s | Due nastri di parole si incrociano a X: ORDINI · MAGAZZINO · PRODUZIONE · FATTURE · CLIENTI (bianco) e EXCEL · EMAIL · FOGLI · CARTA · TELEFONATE (viola). Sotto: "Fogli Excel. Programmi diversi. Passaggi a mano." |
+| 0,9 s | Due nastri di parole si incrociano a X: ORDINI · MAGAZZINO · PRODUZIONE · FATTURE · CLIENTI (bianco) e EXCEL · EMAIL · FOGLI · PROGRAMMI · PASSAGGI A MANO (viola). Sotto: "Fogli Excel. Programmi diversi. Passaggi a mano." |
 | 4,6 s | I nastri si raddrizzano e si chiudono in una riga |
 | 5,0 s | ORDINI, MAGAZZINO, PRODUZIONE e FATTURE arrivano dai quattro lati |
 | 6,0 s | Si scontrano (drop della musica): lampo, onda viola, scossa. Le lettere esplodono e formano "tutto in UN UNICO SISTEMA." |
-| 8,0 s | "Molti gestionali vi chiedono di ADATTARVI.": la cornice si stringe e schiaccia la parola |
+| 8,0 s | "Non siete voi a dovervi ADATTARE.": la cornice si stringe e schiaccia la parola |
 | 10,0 s | Una lastra viola attraversa lo schermo: "Noi facciamo il contrario.", con "il contrario." che si ribalta |
-| 11,6 s | "Il software si adatta a voi.": la cornice cresce fino a stare intorno ad "a voi.", poi tuffo in avanti |
+| 11,6 s | "Il gestionale segue i vostri processi.": la cornice cresce fino a stare intorno a "processi.", poi tuffo in avanti |
 | 13,0 s | "Software gestionale SU MISURA": la parola è stretta, il righello si disegna, la parola si allarga fino alla misura giusta. "per le PMI." |
 | 16,0 s | "Perché Merkorn?" (secondo drop): le lettere cadono, poi la camera si tuffa nella "o" |
-| 18,0 s | 01 "Partiamo da come lavorate.": una riga viola scrive il testo. "Prima l'analisi, poi il codice." |
-| 20,0 s | 02 "Moduli collaudati.": le lettere cadono e rimbalzano. "Meno tempi, meno costi." |
-| 22,0 s | 03 "Dati inseriti una volta sola.": tre copie della riga si sovrappongono e ne resta una. "Collegato alla fatturazione elettronica." |
-| 24,0 s | 04 "Lo stesso team, anche dopo.": le due righe arrivano da lati opposti. "Assistenza ed evoluzione del software." |
+| 18,0 s | 01 "Su misura dei processi.": una riga viola scrive il testo. "Partiamo da come lavorate." |
+| 20,0 s | 02 "UX curata.": le lettere cadono e rimbalzano. "Prima l'esperienza, poi il codice." |
+| 22,0 s | 03 "Interfaccia intuitiva.": tre copie della riga si sovrappongono e ne resta una. "Una schermata, un compito." |
+| 24,0 s | 04 "Poca formazione.": le due righe arrivano da lati opposti. "Chi lo usa sa subito cosa fare." |
 | 26,0 s | Un cerchio viola si apre: "Il primo incontro è una chiacchierata. Senza impegno, in azienda o online." |
 | 27,6 s | Il cerchio si chiude: "Prenota un appuntamento / merkorn.com", con la riga viola sotto |
 | 29,0 s | La riga viola diventa il blocco; il marchio si forma, sotto "powered by Merkorn" |
