@@ -1,6 +1,6 @@
 {
  "fps": 60,
- "frames": 2880,
+ "frames": 4200,
  "bpm": 120,
  "cues": [
   {
@@ -53,630 +53,630 @@
   },
   {
    "sound": "whoosh",
-   "t": 3.7,
+   "t": 5.2,
    "gain": 0.9,
    "pan": -0.4
   },
   {
    "sound": "thud",
-   "t": 4,
+   "t": 5.5,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 4.3,
+   "t": 5.8,
    "gain": 0.45,
    "pan": 0.5
   },
   {
    "sound": "blip",
-   "t": 4.75,
+   "t": 6.25,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 4.82,
+   "t": 6.32,
    "note": 2,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 4.89,
+   "t": 6.39,
    "note": 4,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 4.96,
+   "t": 6.46,
    "note": 6,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 5.03,
+   "t": 6.53,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "swish",
-   "t": 5.6,
+   "t": 7.3,
    "gain": 0.6
   },
   {
    "sound": "click",
-   "t": 5.85,
+   "t": 7.55,
    "gain": 0.5
   },
   {
    "sound": "swish",
-   "t": 6.5,
+   "t": 9.3,
    "gain": 0.6
   },
   {
    "sound": "click",
-   "t": 6.75,
+   "t": 9.55,
    "gain": 0.5
   },
   {
    "sound": "swish",
-   "t": 7.4,
+   "t": 11.3,
    "gain": 0.6
   },
   {
    "sound": "click",
-   "t": 7.65,
+   "t": 11.55,
    "gain": 0.5
   },
   {
    "sound": "whoosh",
-   "t": 8.2,
+   "t": 13.2,
    "gain": 0.9,
    "pan": 0.4
   },
   {
    "sound": "thud",
-   "t": 8.5,
+   "t": 13.5,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 8.75,
+   "t": 13.75,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "swish",
-   "t": 8.85,
+   "t": 13.85,
    "gain": 0.45,
    "pan": 0.5
   },
   {
    "sound": "swish",
-   "t": 8.95,
+   "t": 13.95,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "pop",
-   "t": 9.15,
+   "t": 14.15,
    "note": 4
   },
   {
    "sound": "swish",
-   "t": 10.4,
+   "t": 16.3,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "pop",
-   "t": 10.55,
+   "t": 16.45,
    "note": 2
   },
   {
    "sound": "swish",
-   "t": 10.9,
+   "t": 17.1,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "pop",
-   "t": 11.05,
+   "t": 17.25,
    "note": 4
   },
   {
    "sound": "swish",
-   "t": 11.4,
+   "t": 17.9,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "pop",
-   "t": 11.55,
+   "t": 18.05,
    "note": 6
   },
   {
    "sound": "whoosh",
-   "t": 12.7,
+   "t": 20.7,
    "gain": 0.9,
    "pan": -0.4
   },
   {
    "sound": "thud",
-   "t": 13,
+   "t": 21,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 13.25,
+   "t": 21.25,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "blip",
-   "t": 13.65,
+   "t": 21.65,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 13.72,
+   "t": 21.72,
    "note": 2,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 13.79,
+   "t": 21.79,
    "note": 4,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 13.86,
+   "t": 21.86,
    "note": 6,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 13.93,
+   "t": 21.93,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "thud",
-   "t": 14.58,
+   "t": 22.68,
    "gain": 0.45
   },
   {
    "sound": "thud",
-   "t": 14.7,
+   "t": 22.8,
    "gain": 0.45
   },
   {
    "sound": "thud",
-   "t": 14.82,
+   "t": 22.92,
    "gain": 0.45
   },
   {
    "sound": "thud",
-   "t": 14.94,
+   "t": 23.04,
    "gain": 0.45
   },
   {
    "sound": "thud",
-   "t": 15.06,
+   "t": 23.16,
    "gain": 0.45
   },
   {
    "sound": "thud",
-   "t": 15.18,
+   "t": 23.28,
    "gain": 0.45
   },
   {
    "sound": "chime",
-   "t": 15.9,
+   "t": 24,
    "gain": 0.5
   },
   {
    "sound": "whoosh",
-   "t": 17.7,
+   "t": 27.2,
    "gain": 0.9,
    "pan": 0.4
   },
   {
    "sound": "thud",
-   "t": 18,
+   "t": 27.5,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 18.25,
+   "t": 27.75,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "swish",
-   "t": 18.35,
+   "t": 27.85,
    "gain": 0.45,
    "pan": 0.5
   },
   {
    "sound": "swish",
-   "t": 18.6,
+   "t": 28.1,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "swish",
-   "t": 18.7,
+   "t": 28.2,
    "gain": 0.45,
    "pan": 0.5
   },
   {
    "sound": "swish",
-   "t": 20.2,
+   "t": 30.1,
    "gain": 0.7,
    "pan": -0.5
   },
   {
    "sound": "pop",
-   "t": 20.4,
+   "t": 30.3,
    "note": 3
   },
   {
    "sound": "swish",
-   "t": 20.9,
+   "t": 31.2,
    "gain": 0.7,
    "pan": 0.5
   },
   {
    "sound": "pop",
-   "t": 21.1,
+   "t": 31.4,
    "note": 4
   },
   {
    "sound": "swish",
-   "t": 21.6,
+   "t": 32.3,
    "gain": 0.7,
    "pan": -0.5
   },
   {
    "sound": "pop",
-   "t": 21.8,
+   "t": 32.5,
    "note": 5
   },
   {
    "sound": "swish",
-   "t": 22.3,
+   "t": 33.4,
    "gain": 0.7,
    "pan": 0.5
   },
   {
    "sound": "pop",
-   "t": 22.5,
+   "t": 33.6,
    "note": 6
   },
   {
    "sound": "whoosh",
-   "t": 23.7,
+   "t": 35.7,
    "gain": 0.9,
    "pan": -0.4
   },
   {
    "sound": "thud",
-   "t": 24,
+   "t": 36,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 24.85,
+   "t": 36.85,
    "gain": 0.8
   },
   {
    "sound": "thud",
-   "t": 24.95,
+   "t": 36.95,
    "gain": 0.8
   },
   {
    "sound": "pop",
-   "t": 25.15,
+   "t": 37.15,
    "note": 4
   },
   {
    "sound": "whoosh",
-   "t": 27.7,
+   "t": 41.2,
    "gain": 0.9,
    "pan": 0.4
   },
   {
    "sound": "thud",
-   "t": 28,
+   "t": 41.5,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 28.25,
+   "t": 41.75,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "blip",
-   "t": 28.65,
+   "t": 42.15,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 28.72,
+   "t": 42.22,
    "note": 2,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 28.79,
+   "t": 42.29,
    "note": 4,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 28.86,
+   "t": 42.36,
    "note": 6,
    "gain": 0.45
   },
   {
    "sound": "whoosh",
-   "t": 29,
+   "t": 42.7,
    "gain": 0.5
   },
   {
    "sound": "click",
-   "t": 29.3,
+   "t": 43,
    "gain": 0.6
   },
   {
    "sound": "whoosh",
-   "t": 30.1,
+   "t": 44.7,
    "gain": 0.5
   },
   {
    "sound": "click",
-   "t": 30.4,
+   "t": 45,
    "gain": 0.6
   },
   {
    "sound": "whoosh",
-   "t": 31.2,
+   "t": 46.7,
    "gain": 0.5
   },
   {
    "sound": "click",
-   "t": 31.5,
+   "t": 47,
    "gain": 0.6
   },
   {
    "sound": "whoosh",
-   "t": 32.3,
+   "t": 48.7,
    "gain": 0.5
   },
   {
    "sound": "click",
-   "t": 32.6,
+   "t": 49,
    "gain": 0.6
   },
   {
    "sound": "whoosh",
-   "t": 33.2,
+   "t": 50.7,
    "gain": 0.9,
    "pan": -0.4
   },
   {
    "sound": "thud",
-   "t": 33.5,
+   "t": 51,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 33.75,
+   "t": 51.25,
    "gain": 0.45,
    "pan": -0.5
   },
   {
    "sound": "swish",
-   "t": 33.9,
+   "t": 51.4,
    "gain": 0.45,
    "pan": 0.5
   },
   {
    "sound": "swish",
-   "t": 34.4,
+   "t": 52,
    "gain": 0.6
   },
   {
    "sound": "blip",
-   "t": 34.55,
+   "t": 52.15,
    "note": 0,
    "gain": 0.6
   },
   {
    "sound": "blip",
-   "t": 34.77,
+   "t": 52.55,
    "note": 1,
    "gain": 0.6
   },
   {
    "sound": "blip",
-   "t": 34.99,
+   "t": 52.95,
    "note": 2,
    "gain": 0.6
   },
   {
    "sound": "blip",
-   "t": 35.21,
+   "t": 53.35,
    "note": 3,
    "gain": 0.6
   },
   {
    "sound": "blip",
-   "t": 35.43,
+   "t": 53.75,
    "note": 4,
    "gain": 0.6
   },
   {
    "sound": "blip",
-   "t": 35.65,
+   "t": 54.15,
    "note": 5,
    "gain": 0.6
   },
   {
    "sound": "pop",
-   "t": 36.7,
+   "t": 55.6,
    "note": 1,
    "gain": 0.5
   },
   {
    "sound": "pop",
-   "t": 36.82,
+   "t": 55.75,
    "note": 2,
    "gain": 0.5
   },
   {
    "sound": "pop",
-   "t": 36.94,
+   "t": 55.9,
    "note": 3,
    "gain": 0.5
   },
   {
    "sound": "pop",
-   "t": 37.06,
+   "t": 56.05,
    "note": 4,
    "gain": 0.5
   },
   {
    "sound": "pop",
-   "t": 37.18,
+   "t": 56.2,
    "note": 5,
    "gain": 0.5
   },
   {
    "sound": "pop",
-   "t": 37.3,
+   "t": 56.35,
    "note": 6,
    "gain": 0.5
   },
   {
    "sound": "whoosh",
-   "t": 38.2,
+   "t": 57.7,
    "gain": 0.9,
    "pan": 0.4
   },
   {
    "sound": "thud",
-   "t": 38.5,
+   "t": 58,
    "gain": 0.6
   },
   {
    "sound": "pop",
-   "t": 38.7,
+   "t": 58.2,
    "note": 0
   },
   {
    "sound": "pop",
-   "t": 38.77,
+   "t": 58.27,
    "note": 1
   },
   {
    "sound": "pop",
-   "t": 38.84,
+   "t": 58.34,
    "note": 2
   },
   {
    "sound": "pop",
-   "t": 38.91,
+   "t": 58.41,
    "note": 3
   },
   {
    "sound": "pop",
-   "t": 38.98,
+   "t": 58.48,
    "note": 4
   },
   {
    "sound": "blip",
-   "t": 39.1,
+   "t": 58.6,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 39.17,
+   "t": 58.67,
    "note": 2,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 39.24,
+   "t": 58.74,
    "note": 4,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 39.31,
+   "t": 58.81,
    "note": 6,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 39.38,
+   "t": 58.88,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 40.6,
+   "t": 60.1,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 40.67,
+   "t": 60.17,
    "note": 2,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 40.74,
+   "t": 60.24,
    "note": 4,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 40.81,
+   "t": 60.31,
    "note": 6,
    "gain": 0.45
   },
   {
    "sound": "blip",
-   "t": 40.88,
+   "t": 60.38,
    "note": 0,
    "gain": 0.45
   },
   {
    "sound": "swish",
-   "t": 40.9,
+   "t": 60.4,
    "gain": 0.6
   },
   {
    "sound": "swish",
-   "t": 43.4,
+   "t": 65,
    "gain": 0.7
   },
   {
    "sound": "chime",
-   "t": 44,
+   "t": 65.6,
    "gain": 1
   },
   {
    "sound": "swish",
-   "t": 47.5,
+   "t": 69.1,
    "gain": 0.5
   }
  ]

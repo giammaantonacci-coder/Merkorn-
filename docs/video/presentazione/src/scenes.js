@@ -1,4 +1,4 @@
-film({ W: 1080, H: 1920, BPM: 120, BEATS: 96 });
+film({ W: 1080, H: 1920, BPM: 120, BEATS: 140 });
 
 // Merkorn, video di presentazione per il profilo Instagram (in evidenza). I testi vengono dalla presentazione
 // "Merkorn · Presentazione": chi siamo, cosa fa, i moduli, a cosa serve, perché Merkorn, come lavoriamo, parliamone.
@@ -15,18 +15,19 @@ const DROP = 110;
 const K = {};
 function timeline() {
   Object.assign(K, { open: B(2) });
-  // inizio di ogni scena (le transizioni coprono lo schermo sul taglio)
-  K.sec = [0.8, 4.0, 8.5, 13.0, 18.0, 24.0, 28.0, 33.5, 38.5];
-  K.close = 43.4;
+  // inizio di ogni scena (le transizioni coprono lo schermo sul taglio); ogni scena resta abbastanza da leggere tutto
+  K.sec = [0.8, 5.5, 13.5, 21.0, 27.5, 36.0, 41.5, 51.0, 58.0];
+  const S = (n, dt) => K.sec[n] + dt;
+  K.close = 65.0;
   K.out = K.close + 0.6 + 3.2;
-  K.facts = [5.6, 6.5, 7.4];
-  K.pillars = [10.4, 10.9, 11.4];
-  K.tiles = 14.3;
-  K.strips = [20.2, 20.9, 21.6, 22.3];
-  K.bend = 24.85; K.flip = 25.15;
-  K.cards = [29.0, 30.1, 31.2, 32.3];
-  K.line = 34.4; K.rows = 34.55; K.sweep = 36.7;
-  K.uline = 40.9;
+  K.facts = [S(1, 1.8), S(1, 3.8), S(1, 5.8)];
+  K.pillars = [S(2, 2.8), S(2, 3.6), S(2, 4.4)];
+  K.tiles = S(3, 1.4);
+  K.strips = [S(4, 2.6), S(4, 3.7), S(4, 4.8), S(4, 5.9)];
+  K.bend = S(5, 0.85); K.flip = S(5, 1.15);
+  K.cards = [S(6, 1.2), S(6, 3.2), S(6, 5.2), S(6, 7.2)];
+  K.line = S(7, 1.0); K.rows = S(7, 1.15); K.rowStep = 0.4; K.sweep = S(7, 4.6);
+  K.uline = S(8, 2.4);
 }
 const BGS = [BLACK, WHITE, BLACK, WHITE, BLACK, VIO, WHITE, BLACK, WHITE];
 const WIPES = [null, "blocks", "circle", "h", "diag", "flood", "v", "blocks", "h"];
@@ -88,23 +89,23 @@ function textsHtml() {
   return [
     // 1 · titolo
     word("brand", "MERKORN", 34, { color: WHITE, weight: 700, track: 0.2 }),
-    line(0, "t1a", "Gestionali", 160, 760, 1.0, "L", { color: ink(0) }),
-    line(0, "t1b", "su misura", 160, 935, 1.12, "R", { color: VIO }),
-    line(0, "t1c", "per le PMI.", 160, 1110, 1.24, "L", { color: ink(0) }),
-    line(0, "t1d", "Software costruito attorno al vostro", 44, 1290, 1.85, "up", sub(0)),
-    line(0, "t1e", "modo di lavorare, non il contrario.", 44, 1350, 1.95, "up", sub(0)),
-    line(0, "t1f", "SOFTWARE HOUSE · PUGLIA", 30, 1470, 2.3, "up", { color: VIO, weight: 700, track: 0.18 }),
+    line(0, "t1a", "Gestionali", 160, 760, K.sec[0] + 0.2, "L", { color: ink(0) }),
+    line(0, "t1b", "su misura", 160, 935, K.sec[0] + 0.32, "R", { color: VIO }),
+    line(0, "t1c", "per le PMI.", 160, 1110, K.sec[0] + 0.44, "L", { color: ink(0) }),
+    line(0, "t1d", "Software costruito attorno al vostro", 44, 1290, K.sec[0] + 1.05, "up", sub(0)),
+    line(0, "t1e", "modo di lavorare, non il contrario.", 44, 1350, K.sec[0] + 1.15, "up", sub(0)),
+    line(0, "t1f", "SOFTWARE HOUSE · PUGLIA", 30, 1470, K.sec[0] + 1.5, "up", { color: VIO, weight: 700, track: 0.18 }),
     // 2 · chi siamo
-    label("l2", "CHI SIAMO"), line(1, "t2a", "Software house", 132, 680, 4.3, "R", { color: ink(1) }),
-    line(1, "t2b", "pugliese.", 168, 850, 4.5, "drop", { color: VIO }),
-    line(1, "t2c", "Portiamo il digitale nelle", 48, 1000, 4.95, "up", sub(1)),
-    line(1, "t2d", "imprese del territorio.", 48, 1062, 5.05, "up", sub(1)),
+    label("l2", "CHI SIAMO"), line(1, "t2a", "Software house", 132, 680, K.sec[1] + 0.3, "R", { color: ink(1) }),
+    line(1, "t2b", "pugliese.", 168, 850, K.sec[1] + 0.5, "drop", { color: VIO }),
+    line(1, "t2c", "Portiamo il digitale nelle", 48, 1000, K.sec[1] + 0.95, "up", sub(1)),
+    line(1, "t2d", "imprese del territorio.", 48, 1062, K.sec[1] + 1.05, "up", sub(1)),
     // 3 · cosa fa Merkorn
     label("l3", "COSA FA MERKORN"),
-    line(2, "t3a", "Progettiamo e", 130, 650, 8.75, "L", { color: ink(2), out: 10.05 }),
-    line(2, "t3b", "sviluppiamo", 130, 795, 8.85, "R", { color: ink(2), out: 10.1 }),
-    line(2, "t3c", "il gestionale", 130, 940, 8.95, "L", { color: ink(2), out: 10.15 }),
-    line(2, "t3d", "della vostra azienda.", 100, 1075, 9.15, "pop", { color: VIO, out: 10.2 }),
+    line(2, "t3a", "Progettiamo e", 130, 650, K.sec[2] + 0.25, "L", { color: ink(2), out: K.sec[2] + 2.35 }),
+    line(2, "t3b", "sviluppiamo", 130, 795, K.sec[2] + 0.35, "R", { color: ink(2), out: K.sec[2] + 2.4 }),
+    line(2, "t3c", "il gestionale", 130, 940, K.sec[2] + 0.45, "L", { color: ink(2), out: K.sec[2] + 2.45 }),
+    line(2, "t3d", "della vostra azienda.", 100, 1075, K.sec[2] + 0.65, "pop", { color: VIO, out: K.sec[2] + 2.5 }),
     line(2, "p0", "Su misura.", 130, 700, K.pillars[0], "L", { color: ink(2) }),
     line(2, "p0s", "Attorno ai vostri processi e alle persone.", 38, 810, K.pillars[0] + 0.2, "up", sub(2)),
     line(2, "p1", "Modulare.", 130, 960, K.pillars[1], "L", { color: ink(2) }),
@@ -112,38 +113,38 @@ function textsHtml() {
     line(2, "p2", "Guidato dai dati.", 130, 1220, K.pillars[2], "L", { color: VIO }),
     line(2, "p2s", "Ogni dato diventa un numero in dashboard.", 38, 1330, K.pillars[2] + 0.2, "up", sub(2)),
     // 4 · i moduli
-    label("l4", "I MODULI"), line(3, "t4a", "Un gestionale,", 128, 590, 13.25, "L", { color: ink(3) }),
-    line(3, "t4b", "componibile.", 150, 750, 13.4, "drop", { color: VIO }),
+    label("l4", "I MODULI"), line(3, "t4a", "Un gestionale,", 128, 590, K.sec[3] + 0.25, "L", { color: ink(3) }),
+    line(3, "t4b", "componibile.", 150, 750, K.sec[3] + 0.4, "drop", { color: VIO }),
     // 5 · a cosa serve
     label("l5", "A COSA SERVE"),
-    line(4, "t5a", "Meno tempo", 140, 650, 18.25, "L", { color: ink(4), out: 19.85 }),
-    line(4, "t5b", "sui dati,", 140, 800, 18.35, "R", { color: ink(4), out: 19.9 }),
-    line(4, "t5c", "più tempo", 140, 950, 18.6, "L", { color: VIO, out: 19.95 }),
-    line(4, "t5d", "sulle decisioni.", 140, 1100, 18.7, "R", { color: VIO, out: 20.0 }),
+    line(4, "t5a", "Meno tempo", 140, 650, K.sec[4] + 0.25, "L", { color: ink(4), out: K.sec[4] + 2.25 }),
+    line(4, "t5b", "sui dati,", 140, 800, K.sec[4] + 0.35, "R", { color: ink(4), out: K.sec[4] + 2.3 }),
+    line(4, "t5c", "più tempo", 140, 950, K.sec[4] + 0.6, "L", { color: VIO, out: K.sec[4] + 2.35 }),
+    line(4, "t5d", "sulle decisioni.", 140, 1100, K.sec[4] + 0.7, "R", { color: VIO, out: K.sec[4] + 2.4 }),
     // 6 · lo strumento si piega
-    line(5, "t6a", "Lo strumento", 132, 690, 24.15, "up", { color: BLACK }),
-    line(5, "t6b", "si piega", 190, 865, 24.3, "bend", { color: WHITE, x: MID.x, ax: 0.5 }),
-    line(5, "t6c", "al processo,", 132, 1040, 24.5, "up", { color: BLACK }),
+    line(5, "t6a", "Lo strumento", 132, 690, K.sec[5] + 0.15, "up", { color: BLACK }),
+    line(5, "t6b", "si piega", 190, 865, K.sec[5] + 0.3, "bend", { color: WHITE, x: MID.x, ax: 0.5 }),
+    line(5, "t6c", "al processo,", 132, 1040, K.sec[5] + 0.5, "up", { color: BLACK }),
     line(5, "t6d", "non il contrario.", 132, 1190, K.flip, "flip", { color: WHITE }),
-    line(5, "t6e", "Partiamo da come lavorate.", 46, 1350, 25.7, "up", { color: BLACK, weight: 600, track: -0.01 }),
-    line(5, "t6f", "Il software arriva dopo.", 46, 1412, 25.8, "up", { color: BLACK, weight: 600, track: -0.01 }),
+    line(5, "t6e", "Partiamo da come lavorate.", 46, 1350, K.sec[5] + 1.7, "up", { color: BLACK, weight: 600, track: -0.01 }),
+    line(5, "t6f", "Capiamo dove nasce il problema.", 46, 1412, K.sec[5] + 1.8, "up", { color: BLACK, weight: 600, track: -0.01 }),
     // 7 · perché Merkorn
-    label("l7", "PERCHÉ MERKORN"), line(6, "t7a", "Quattro", 150, 600, 28.25, "L", { color: ink(6) }),
-    line(6, "t7b", "ragioni.", 170, 765, 28.4, "drop", { color: VIO }),
+    label("l7", "PERCHÉ MERKORN"), line(6, "t7a", "Quattro", 150, 600, K.sec[6] + 0.25, "L", { color: ink(6) }),
+    line(6, "t7b", "ragioni.", 170, 765, K.sec[6] + 0.4, "drop", { color: VIO }),
     // 8 · come lavoriamo
-    label("l8", "COME LAVORIAMO"), line(7, "t8a", "Sei fasi,", 140, 560, 33.75, "L", { color: ink(7) }),
-    line(7, "t8b", "nessuna sorpresa.", 120, 710, 33.9, "R", { color: VIO }),
+    label("l8", "COME LAVORIAMO"), line(7, "t8a", "Il nostro processo", 120, 560, K.sec[7] + 0.25, "L", { color: ink(7) }),
+    line(7, "t8b", "diviso in sei fasi.", 120, 710, K.sec[7] + 0.4, "R", { color: VIO }),
     // 9 · parliamone
-    line(8, "t9a", "Parliamone.", 190, 760, 38.85, "burst", { color: BLACK, out: K.close - 0.1 }),
-    line(8, "t9b", "Il primo passo è", 70, 930, 39.4, "up", { color: BLACK, weight: 700, out: K.close - 0.1 }),
-    line(8, "t9c", "un'analisi gratuita.", 70, 1012, 39.5, "up", { color: VIO, weight: 700, out: K.close - 0.1 }),
-    line(8, "t9d", "Veniamo a vedere come lavorate.", 42, 1115, 39.95, "up", { ...sub(8), out: K.close - 0.1 }),
-    line(8, "t9e", "merkorn.com", 120, 1300, 40.35, "burst", { color: BLACK, out: K.close - 0.1 }),
-    line(8, "t9f", "merkornsh@gmail.com", 42, 1445, 41.2, "up", { color: VIO, weight: 600, track: -0.01, out: K.close - 0.1 }),
+    line(8, "t9a", "Parliamone.", 190, 760, K.sec[8] + 0.35, "burst", { color: BLACK, out: K.close - 0.1 }),
+    line(8, "t9b", "Il primo passo è", 70, 930, K.sec[8] + 0.9, "up", { color: BLACK, weight: 700, out: K.close - 0.1 }),
+    line(8, "t9c", "un'analisi gratuita.", 70, 1012, K.sec[8] + 1.0, "up", { color: VIO, weight: 700, out: K.close - 0.1 }),
+    line(8, "t9d", "Veniamo a vedere come lavorate.", 42, 1115, K.sec[8] + 1.45, "up", { ...sub(8), out: K.close - 0.1 }),
+    line(8, "t9e", "merkorn.com", 120, 1300, K.sec[8] + 1.85, "burst", { color: BLACK, out: K.close - 0.1 }),
+    line(8, "t9f", "merkornsh@gmail.com", 42, 1445, K.sec[8] + 2.7, "up", { color: VIO, weight: 600, track: -0.01, out: K.close - 0.1 }),
   ].join("");
 }
 // le etichette in alto: scena, y, istante
-const LABELS = [["l2", 1, 545, 4.25], ["l3", 2, 520, 8.7], ["l4", 3, 455, 13.2], ["l5", 4, 520, 18.2], ["l7", 6, 465, 28.2], ["l8", 7, 425, 33.7]];
+const LABELS = [["l2", 1, 545, 0.25], ["l3", 2, 520, 0.2], ["l4", 3, 455, 0.2], ["l5", 4, 520, 0.2], ["l7", 6, 465, 0.2], ["l8", 7, 425, 0.2]];
 
 // ---- forme ----
 const FACTS = [["LA MISSIONE", "Una nuova cultura digitale", "per le imprese pugliesi."], ["IL FOCUS", "Gestionali con al centro", "esperienza d'uso e modularità."], ["LA VISIONE", "Un punto di riferimento", "digitale in Puglia."]];
@@ -239,7 +240,6 @@ function applyWipes(t) {
       rectCss(wp, { x: 0, y: t < T0 ? FILM.H * (1 - c) : -FILM.H * u, w: FILM.W, h: FILM.H, r: 0 });
     } else if (kind === "diag") {
       const x = t < T0 ? lerp(-2400, -500, c) : lerp(-500, 1500, u);
-      wp.style.clipPath = `polygon(${x}px 0px, ${x + 1900}px 0px, ${x + 1900 - 800}px ${FILM.H}px, ${x - 800}px ${FILM.H}px)`;
       rectCss(wp, { x: 0, y: 0, w: FILM.W, h: FILM.H, r: 0 });
       wp.style.clipPath = `polygon(${(x + 800).toFixed(1)}px 0px, ${(x + 2700).toFixed(1)}px 0px, ${(x + 1900).toFixed(1)}px ${FILM.H}px, ${x.toFixed(1)}px ${FILM.H}px)`;
     }
@@ -289,8 +289,8 @@ function applyTexts(t) {
       letters(k, (i, off) => { const u = off / (w.w / 2); return { y: b * u * u * 70, r: b * u * 16 }; });
     }
   });
-  LABELS.forEach(([k, s, y, at]) => {
-    const out = K.sec[s + 1] - 0.32;
+  LABELS.forEach(([k, s, y, dt]) => {
+    const at = K.sec[s] + dt, out = K.sec[s + 1] - 0.32;
     if (t < at || t >= out + 0.32) return;
     const e = sp(t, at, 0.5, 0.82), o = away(t, out, 0.3);
     put(k, LX, y + (1 - e) * 30 - o * 220, { ax: 0, o: clamp(e * 2) * (1 - o) });
@@ -373,15 +373,15 @@ function applyShapes(t) {
   // 8 · le sei fasi su una linea viola
   if (t >= K.line && t < K.sec[8]) {
     const o = away(t, K.sec[8] - 0.32, 0.3), lift = -o * 220;
-    const lp = prog(t, K.line, 1.3, E.inOut);
+    const lp = prog(t, K.line, 0.4 + 5 * K.rowStep, E.inOut);
     show($.line, true);
     $.line.style.opacity = (1 - o).toFixed(3);
     rectCss($.line, { x: PH.x - 3, y: PH.y0 + lift, w: 6, h: lp * PH.step * 5, r: 3 });
     PHASES.forEach((_, i) => {
-      const at = K.rows + i * 0.22, e = sp(t, at, 0.5, 0.72, 1.06);
+      const at = K.rows + i * K.rowStep, e = sp(t, at, 0.5, 0.72, 1.06);
       if (t < at) return;
       g(`ph${i}`, PH.x + (1 - e) * 120, PH.y0 + i * PH.step + lift, { o: clamp(e * 2) * (1 - o) });
-      const k = pulse(t, K.sweep + i * 0.12, 0.35);
+      const k = pulse(t, K.sweep + i * 0.15, 0.4);
       setT($["dot" + i], `scale(${(clamp(sp(t, at, 0.4, 0.5, 1.3), 0, 1.3) * (1 + 0.6 * k)).toFixed(4)})`);
     });
   }
@@ -422,8 +422,8 @@ function cues() {
   c.push(["swish", K.bend, { gain: 0.8 }], ["thud", K.bend + 0.1, { gain: 0.8 }]);
   K.cards.forEach((at, i) => c.push(["whoosh", at, { gain: 0.5 }], ["click", at + 0.3, { gain: 0.6 }]));
   c.push(["swish", K.line, { gain: 0.6 }]);
-  PHASES.forEach((_, i) => c.push(["blip", K.rows + i * 0.22, { note: i, gain: 0.6 }]));
-  PHASES.forEach((_, i) => c.push(["pop", K.sweep + i * 0.12, { note: i + 1, gain: 0.5 }]));
+  PHASES.forEach((_, i) => c.push(["blip", K.rows + i * K.rowStep, { note: i, gain: 0.6 }]));
+  PHASES.forEach((_, i) => c.push(["pop", K.sweep + i * 0.15, { note: i + 1, gain: 0.5 }]));
   for (let i = 0; i < 5; i++) c.push(["pop", K.sec[8] + 0.2 + i * 0.07, { note: i }]);
   c.push(["swish", K.uline, { gain: 0.6 }], ["swish", K.close, { gain: 0.7 }], ["chime", K.close + 0.6, { gain: 1.0 }], ["swish", K.out + 0.3, { gain: 0.5 }]);
   return c;

@@ -1,16 +1,16 @@
 """Merkorn · Presentazione: la colonna sonora del video, sintetizzata qui (niente di campionato o scaricato).
 
-La minore, 120 BPM, 24 battute = 48 s, esattamente la durata del video, e gira in loop: l'ultima battuta è lo
+La minore, 120 BPM, 35 battute = 70 s, esattamente la durata del video, e gira in loop: l'ultima battuta è lo
 stesso pad di La minore con cui si apre la prima, e la coda del riverbero oltre la fine viene ripiegata sull'inizio.
 
 Le sezioni seguono le immagini:
   battuta 1      (0-2 s)    blocco viola che esplode: pad, sub, cassa dimezzata
-  battuta 2      (2-4 s)    titolo: groove leggero, una salita verso il primo taglio
-  battute 3-11   (4-22 s)   chi siamo, cosa fa, i moduli, a cosa serve: groove pieno, arpeggio dalla battuta 5
-  battuta 12     (22-24 s)  salita: clap che accelerano, la cassa tace sull'ultimo tempo
-  battute 13-20  (24-40 s)  drop su "lo strumento si piega", poi perché Merkorn e le sei fasi: pieno, più brillante
-  battuta 21     (40-42 s)  parliamone: metà tempo
-  battute 22-24  (42-48 s)  risucchio verso il marchio e firma: il pad di La minore da solo, come all'inizio
+  battute 2-3    (2-6 s)    titolo: groove leggero, una salita verso il primo taglio
+  battute 4-17   (6-34 s)   chi siamo, cosa fa, i moduli, a cosa serve: groove pieno con arpeggio
+  battuta 18     (34-36 s)  salita: clap che accelerano, la cassa tace sull'ultimo tempo
+  battute 19-29  (36-58 s)  drop su "lo strumento si piega", poi perché Merkorn e le sei fasi: pieno, più brillante
+  battute 30-31  (58-62 s)  parliamone: metà tempo
+  battute 32-35  (62-70 s)  risucchio verso il marchio e firma: il pad di La minore da solo, come all'inizio
 
 Uso: uv run --with numpy python3 audio/score.py   (scrive audio/bed.wav)
 """
@@ -19,7 +19,7 @@ import wave
 
 import numpy as np
 
-SR, BPM, BARS = 44100, 120, 24
+SR, BPM, BARS = 44100, 120, 35
 BEAT = 60 / BPM
 BAR = 4 * BEAT
 L = BARS * BAR
@@ -35,7 +35,7 @@ PROG = [  # (bass root midi, pad notes) per bar, cycling Am F C G; the last thre
 
 
 def chord(bar):
-    return PROG[0] if bar >= 21 else PROG[bar % 4]
+    return PROG[0] if bar >= 31 else PROG[bar % 4]
 
 
 def hz(m):
@@ -44,11 +44,11 @@ def hz(m):
 
 def brightness(bar):
     if bar < 1: return 0.12
-    if bar < 2: return 0.22
-    if bar < 11: return 0.36
-    if bar < 12: return 0.5
-    if bar < 20: return 0.66
-    if bar < 21: return 0.3
+    if bar < 3: return 0.22
+    if bar < 17: return 0.36
+    if bar < 18: return 0.5
+    if bar < 29: return 0.66
+    if bar < 31: return 0.3
     return 0.12
 
 
@@ -100,7 +100,7 @@ def sub(m, start, dur, gain):
     s = np.sin(2 * np.pi * hz(m - 12) * t) * env_adsr(n, 0.2, 0.4, dur - 0.4) * gain
     add(s, start)
 
-for bar in [0] + list(range(20, 24)):
+for bar in [0] + list(range(31, 35)):
     sub(chord(bar)[0], bar * BAR, BAR + 0.4, 0.10)
 
 kicks = []
@@ -149,21 +149,21 @@ for bar in range(BARS):
     root, notes = chord(bar)
     if bar == 0:  # cassa dimezzata dal blocco che esplode
         for b in (1, 2, 3): kick(t0 + b * BEAT, 0.6)
-    if bar == 1:  # titolo: groove leggero
+    if 1 <= bar <= 2:  # titolo: groove leggero
         for b in range(4):
             kick(t0 + b * BEAT, 0.8)
             hat(t0 + b * BEAT + BEAT / 2, gain=0.7, pan=0.25)
         for e8 in range(8):
             bass_note(root + [0, 0, 12, 0, 0, 7, 12, 0][e8], t0 + e8 * BEAT / 2, BEAT / 2 * 0.9, 0.8)
-    if 2 <= bar <= 19:
-        drop = bar >= 12
+    if 3 <= bar <= 28:
+        drop = bar >= 18
         for b in range(4):
-            if bar == 11 and b == 3: continue  # il respiro prima di "si piega"
+            if bar == 17 and b == 3: continue  # il respiro prima di "si piega"
             kick(t0 + b * BEAT, 1.1 if drop else 1.0)
             hat(t0 + b * BEAT + BEAT / 2, open_=drop, gain=0.9 if drop else 0.8, pan=0.25)
             if drop or bar >= 4: hat(t0 + b * BEAT + BEAT / 4 * 3, gain=0.35, pan=-0.25)
         for b in (1, 3):
-            if not (bar == 11 and b == 3): clap(t0 + b * BEAT)
+            if not (bar == 17 and b == 3): clap(t0 + b * BEAT)
         pattern = [0, 0, 12, 0, 0, 7, 12, 0]
         for e8 in range(8):
             bass_note(root + pattern[e8], t0 + e8 * BEAT / 2, BEAT / 2 * 0.9, 1.15 if drop else 1.0)
@@ -171,39 +171,39 @@ for bar in range(BARS):
         for s16 in range(16):
             m = arp[(s16 * 3) % len(arp)] + 12
             pluck(m, t0 + s16 * BEAT / 4, gain=(1.0 if drop else 0.6) * (1.2 if s16 % 4 == 0 else 0.8), pan=0.4 * (1 if s16 % 2 else -1))
-    if bar == 11:  # salita: i clap accelerano
+    if bar == 17:  # salita: i clap accelerano
         for i, d in enumerate(np.linspace(0, BAR - BEAT / 4, 16)):
             if d > BEAT * 2: clap(t0 + d, gain=0.35 + 0.6 * i / 15)
-    if bar == 20:  # parliamone: metà tempo
+    if bar in (29, 30):  # parliamone: metà tempo
         for b in (0, 2): kick(t0 + b * BEAT, 0.7)
         for b in range(4): hat(t0 + b * BEAT + BEAT / 2, gain=0.5)
         for i, m in enumerate([69, 72, 76, 79]): pluck(m, t0 + i * BEAT, gain=0.7, pan=0.3 * (1 if i % 2 else -1))
 
-# salita verso il primo taglio (2.5-4 s)
+# salita verso il primo taglio (4-5.5 s)
 n = int(1.5 * SR); t = np.arange(n) / SR
 f = 200 * (1200 / 200) ** (t / 1.5)
 ris = (np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.2 + rng.uniform(-1, 1, n) * 0.3 * (t / 1.5)) * (t / 1.5) ** 2
-add(np.diff(np.concatenate([[0], ris])) * 6 * 0.1, 2.5)
+add(np.diff(np.concatenate([[0], ris])) * 6 * 0.1, 4.0)
 
-# salita verso il drop (21-24 s)
+# salita verso il drop (33-36 s)
 n = int(3.0 * SR); t = np.arange(n) / SR
 f = 120 * (1500 / 120) ** (t / 3.0)
 ph = 2 * np.pi * np.cumsum(f) / SR
 ris = (np.sin(ph) * 0.25 + rng.uniform(-1, 1, n) * 0.35 * (t / 3.0)) * (t / 3.0) ** 2
 ris = np.diff(np.concatenate([[0], ris]))  * 6
-add(ris * 0.12, 21.0)
+add(ris * 0.12, 33.0)
 
-# risucchio verso il marchio (42-44 s)
+# risucchio verso il marchio (63-65 s)
 n = int(2.0 * SR); t = np.arange(n) / SR
 sw = np.zeros(n)
 for m in [57, 64, 69, 72, 76]:
     sw += np.sin(2 * np.pi * hz(m) * t) + 0.3 * np.sin(4 * np.pi * hz(m) * t)
 sw *= (t / 2.0) ** 3
-add(sw * 0.03, 42.0, pan=0.0)
+add(sw * 0.03, 63.0, pan=0.0)
 
 # un motivo leggero sulla firma
 for i, m in enumerate([69, 76, 81, 84]):
-    pluck(m, 44.0 + i * BEAT / 2, gain=0.7, pan=0.3 * (1 if i % 2 else -1))
+    pluck(m, 65.6 + i * BEAT / 2, gain=0.7, pan=0.3 * (1 if i % 2 else -1))
 
 # ---- sidechain: everything ducks a little on each kick, the bass most ----
 duck = np.ones(out.shape[1])
