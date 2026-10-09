@@ -1,38 +1,32 @@
 # Merkorn · Presentazione (reel 9:16)
 
-Reel verticale 1080 × 1920, 60 fps, 34 s, con musica ed effetti sonori. È fatto per stare in evidenza sul profilo Instagram. Gira in loop: il primo e l'ultimo fotogramma sono lo stesso blocco viola.
+Reel verticale 1080 × 1920, 60 fps, 48 s, con musica ed effetti sonori, per il profilo Instagram (in evidenza). Gira in loop: il primo e l'ultimo fotogramma sono lo stesso blocco viola.
 
-Solo parole, in nero, bianco e viola. Racconta perché scegliere Merkorn attraverso i suoi punti di forza: il gestionale si adatta ai processi dell'azienda, la UX è curata, l'interfaccia è intuitiva e serve poca formazione.
+I testi vengono dalla presentazione aziendale "Merkorn · Presentazione". Fondi pieni nero, bianco e viola, senza sfumature; il viola gioca su parole, forme e transizioni.
 
 ## Scaletta
 
-| Tempo | Cosa succede |
-|---|---|
-| 0,0 s | Fondo nero, alone viola, il blocco in cima al marchio |
-| 0,5 s | Il blocco esplode a tutto schermo |
-| 0,9 s | Due nastri di parole si incrociano a X: ORDINI · MAGAZZINO · PRODUZIONE · FATTURE · CLIENTI (bianco) e EXCEL · EMAIL · FOGLI · PROGRAMMI · PASSAGGI A MANO (viola). Sotto: "Fogli Excel. Programmi diversi. Passaggi a mano." |
-| 4,6 s | I nastri si raddrizzano e si chiudono in una riga |
-| 5,0 s | ORDINI, MAGAZZINO, PRODUZIONE e FATTURE arrivano dai quattro lati |
-| 6,0 s | Si scontrano (drop della musica): lampo, onda viola, scossa. Le lettere esplodono e formano "tutto in UN UNICO SISTEMA." |
-| 8,0 s | "Non siete voi a dovervi ADATTARE.": la cornice si stringe e schiaccia la parola |
-| 10,0 s | Una lastra viola attraversa lo schermo: "Noi facciamo il contrario.", con "il contrario." che si ribalta |
-| 11,6 s | "Il gestionale segue i vostri processi.": la cornice cresce fino a stare intorno a "processi.", poi tuffo in avanti |
-| 13,0 s | "Software gestionale SU MISURA": la parola è stretta, il righello si disegna, la parola si allarga fino alla misura giusta. "per le PMI." |
-| 16,0 s | "Perché Merkorn?" (secondo drop): le lettere cadono, poi la camera si tuffa nella "o" |
-| 18,0 s | 01 "Su misura dei processi.": una riga viola scrive il testo. "Partiamo da come lavorate." |
-| 20,0 s | 02 "UX curata.": le lettere cadono e rimbalzano. "Prima l'esperienza, poi il codice." |
-| 22,0 s | 03 "Interfaccia intuitiva.": tre copie della riga si sovrappongono e ne resta una. "Una schermata, un compito." |
-| 24,0 s | 04 "Poca formazione.": le due righe arrivano da lati opposti. "Chi lo usa sa subito cosa fare." |
-| 26,0 s | Un cerchio viola si apre: "Il primo incontro è una chiacchierata. Senza impegno, in azienda o online." |
-| 27,6 s | Il cerchio si chiude: "Prenota un appuntamento / merkorn.com", con la riga viola sotto |
-| 29,0 s | La riga viola diventa il blocco; il marchio si forma, sotto "powered by Merkorn" |
-| 32,8 s | La firma esce, il marchio si richiude nel blocco del primo fotogramma |
+| Tempo | Fondo | Cosa succede |
+|---|---|---|
+| 0,0 s | nero | Il blocco in cima al marchio |
+| 0,5 s | viola | Il blocco esplode a tutto schermo, poi il viola si ritira verso l'alto |
+| 0,8 s | nero | Marchio e MERKORN; "Gestionali / su misura / per le PMI." entrano da lati alterni. "Software costruito attorno al vostro modo di lavorare, non il contrario." "Software house · Puglia" |
+| 4,0 s | bianco | Transizione a blocchi viola. CHI SIAMO: "Software house pugliese." (le lettere cadono). "Portiamo il digitale nelle imprese del territorio." Tre schede nere si spingono via: la missione, il focus, la visione |
+| 8,5 s | nero | Cerchio viola. COSA FA MERKORN: "Progettiamo e sviluppiamo il gestionale della vostra azienda." Poi "Su misura. Modulare. Guidato dai dati.", ognuno con la sua riga e una barra viola |
+| 13,0 s | bianco | Pannello viola orizzontale. I MODULI: "Un gestionale, componibile." Sei tessere arrivano ruotando e si incastrano: Operatività, Magazzino, Vendite e clienti, Documenti, Integrazioni, Analytics (viola) |
+| 18,0 s | nero | Pannello viola in diagonale. A COSA SERVE: "Meno tempo sui dati, più tempo sulle decisioni." Quattro strisce viola da lati alterni: un dato inserito una volta, meno errori, flusso più rapido, numeri in tempo reale |
+| 24,0 s | viola | Il viola sale dal basso (drop della musica): "Lo strumento si piega al processo, non il contrario." "si piega" si curva ad arco, "non il contrario." si ribalta. "Partiamo da come lavorate. Il software arriva dopo." |
+| 28,0 s | bianco | Il viola sale e scopre il bianco. PERCHÉ MERKORN: "Quattro ragioni." Quattro carte nere che si impilano: tutto in casa, facile da usare, cresce con voi, vicini |
+| 33,5 s | nero | Blocchi viola. COME LAVORIAMO: "Sei fasi, nessuna sorpresa." Una linea viola scende e accende le fasi: analisi, definizione, prototipo, sviluppo, rilascio, adozione |
+| 38,5 s | bianco | Pannello viola. Il marchio si compone; "Parliamone." "Il primo passo è un'analisi gratuita." "merkorn.com" con la riga viola, merkornsh@gmail.com |
+| 43,4 s | nero | La riga viola diventa il blocco; il marchio si forma, sotto "powered by Merkorn" |
+| 47,2 s | nero | La firma esce, il marchio si richiude nel blocco del primo fotogramma |
 
-I tempi esatti sono in `timeline()` dentro `src/scenes.js`.
+I tempi esatti sono in `timeline()` dentro `src/scenes.js`; i testi in `textsHtml()` e nelle costanti FACTS, TILES, STRIPS, CARDS e PHASES.
 
 ## Audio
 
-- `audio/score.py`: la colonna sonora, sintetizzata in Python (numpy), originale, niente di scaricato. La minore, 120 BPM, 17 battute. Il drop sull'urto delle parole (6 s), una salita su "su misura", il secondo drop su "Perché Merkorn?" (16 s), una pausa sul primo incontro, il pad da solo sulla firma.
+- `audio/score.py`: la colonna sonora, sintetizzata in Python (numpy), originale, niente di scaricato. La minore, 120 BPM, 24 battute. Groove dal titolo, drop su "lo strumento si piega", metà tempo su "parliamone", il pad da solo sulla firma.
 - Gli effetti sonori (`cues()` in `src/scenes.js`) sono sintetizzati da `sfx.py` della skill e mixati sopra.
 
 ## Rigenerare
